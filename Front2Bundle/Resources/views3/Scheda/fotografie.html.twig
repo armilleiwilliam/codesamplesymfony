@@ -1,0 +1,103 @@
+{% set page_title = 'Documenti contratto' %}
+{% set page_subtitle = '' %}
+{% form_theme form 'MetronicAdminBundle::form/base.html.twig' %}
+{% extends '::baseJs.html.twig' %}
+
+{% block inline_js %}
+    var lat = {{entity.lat}};
+    var lon = {{entity.lon}};
+{% endblock inline_js %}
+
+{% block css %}
+    {% stylesheets
+    '@MetronicAdminBundle/Resources/public/plugins/bootstrap-switch/static/stylesheets/bootstrap-switch-metro.css'
+    '@MetronicAdminBundle/Resources/public/plugins/fancybox/source/jquery.fancybox.css'
+    '@MetronicAdminBundle/Resources/public/css/pages/portfolio.css'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
+{% endblock css %}
+
+{% block js %}
+    <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+    {% javascripts  
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9-custom.min.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/bootstrap-switch/static/js/bootstrap-switch.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/gmaps/gmaps.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-mixitup/jquery.mixitup.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/fancybox/source/jquery.fancybox.pack.js'
+    '@CasaCoreBundle/Resources/public/js/scheda/fotografie.js'
+    %}  
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}      
+{% endblock js %}
+
+{% block ready_js %}
+    Form.init();
+{% endblock ready_js %}
+
+{% block content %}
+    <div class="row">
+        {% include 'CasaCoreBundle:Scheda:commons/riepilogo.html.twig' %}
+        <div class="col-md-8">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-map-marker"></i>Fotografie</div>
+                    <div class="actions">
+                        <a data-toggle="modal" href="#nuovaFoto" class="btn green btn-sm"><i class="fa fa-plus"></i> Aggiungi</a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row mix-grid">
+                        {% for foto in contratto.foto %}
+                        <div class="col-md-3 col-sm-4 mix">
+                            <div class="mix-inner">
+                                <img class="img-responsive" src="{{ asset(foto.file) }}" alt="" {% if foto.principale %}style="border: 3px solid #35aa47;"{% endif %}>
+                                <div class="mix-details">
+                                    <a class="mix-preview fancybox-button" href="{{ asset(foto.file) }}" title="Zoom" data-rel="fancybox-button"><i class="fa fa-search"></i></a>
+                                    {% if not foto.principale %}
+                                        <a class="mix-link principale" title="Principale" href="{{ path('scheda-foto_principale', {'id': foto.id}) }}"><i class="fa fa-check-circle"></i></a>
+                                        <a class="mix-link trash" style="margin-right: -20px; margin-top: 50px; background: #d84a38;" href="{{ path('scheda-foto_delete', {'id': foto.id}) }}" title="Cancella"><i class="fa fa-trash-o"></i></a>
+                                    {% else %}
+                                        <a class="mix-link principale green" style="background: #35aa47;" title="Principale" href="{{ path('scheda-foto_principale', {'id': foto.id}) }}"><i class="fa fa-check-circle"></i></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+
+    <div class="modal fade" id="nuovaFoto" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{ form_start(form) }}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Carica foto</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_rest(form) }}
+                </div>
+                {{ form_end(form) }}
+                <div class="modal-footer">
+                    <button type="button" class="btn default" id="proprietario-chiudi" data-dismiss="modal">Chiudi</button>
+                    <button type="button" id="addFoto" class="btn blue">Aggiungi</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+    <button class="btn yellow btn-xs" onclick="window.location = '{{ path('scheda') }}';">Torna indietro</button></a>
+{% endblock content %}

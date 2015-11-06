@@ -1,0 +1,13 @@
+{% if route_login or route_signup %}
+    <ul class="list-unstyled inline">
+        {% if route_login %}
+            <li><a href="{{ path(route_login) }}">Login</a></li>
+        {% endif %}
+        {% if route_login and route_signup %}
+            <li class="sep"><span>|</span></li>
+        {% endif %}
+        {% if route_signup %}
+            <li><a href="{{ path(route_signup) }}">Signup</a></li>
+        {% endif %}
+    </ul>
+{% endif %}

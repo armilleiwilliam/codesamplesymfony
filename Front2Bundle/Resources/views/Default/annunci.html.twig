@@ -1,0 +1,156 @@
+{% set sliderTwig = 'CasaFront2Bundle::mdr.html.twig' %}
+{% set mostra_motore = true %}
+
+{% set sliderTwigParam = { 'collassato': true, 'collassato': true, 'annunci': true, 'visiblebox': true} %}
+
+{% extends '::home.html.twig' %}
+{% set num_foto = 0 %}
+{% set cont = 0 %}
+
+{% block ready_js %}
+    tipologie_find();
+{% endblock ready_js %}
+{% block content %}
+             
+    {% include 'CasaFront2Bundle:Default:annunci/titolo.html.twig' %}
+    
+    <div class="container min-hight">
+                                         {% if sliderTwig is defined and mostra_motore == true %}
+            {% if sliderTwigParam is defined  %}
+                {% include sliderTwig with sliderTwigParam%}
+            {% else %}
+                {% include sliderTwig %}
+            {% endif %}
+            {% endif %}
+        <!-- BEGIN BLOG -->
+        <div class="row">
+            <!-- BEGIN LEFT SIDEBAR -->            
+            <div class="col-md-12 col-sm-12 blog-posts margin-bottom-40">
+                {% for annuncio in entities %}
+                    {% if annuncio.scheda.pubblicazione %}
+                    {% set num_foto = 0 %}
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <!-- BEGIN CAROUSEL -->            
+                        <div class="front-carousel">
+                            <div id="{{ annuncio.scheda.id }}" class="carousel slide">
+                                <!-- Carousel items -->
+                                
+                                <div class="carousel-inner">
+                                    {% set cont = 0 %}
+                                    {% if annuncio.foto|length > 0 %}
+                                    {% for foto in annuncio.foto %}
+                                            {% set filec = foto.file %}
+                                        {% set num_foto = loop.length %}
+                                        <!-- Verifica esistenza vecchio percorso immagini -->
+                                        {% if file_exists(foto.file) %}
+                                            {% set file = foto.file %}
+                                            <!-- Verifica nuovo percorso immagini -->
+                                            {% elseif file_exists("uploads/gallery/#{filec}") %}
+                                                {% set file = "uploads/gallery/#{filec}" %}
+                                                {% else %}
+                                                   {% set file = false %} 
+                                            {% endif %}
+                                    
+                                            {% if file %}
+                                    <div class="{% if foto.principale %}active {% endif %}item">
+                                        <div style="width: 100%; height: 200px; background-image: url('{{ asset(file) }}'); background-size: cover; background-position: center;"></div>
+                                    </div>
+                                            {% else %}
+                                                 <div class="{% if cont == 0 %}active{% set cont = 1  %}{% endif %} item">
+                                        <div style="width: 100%; height: 200px; background-image: url('{{ asset('bundles/casafront2/img/immagine-non-disp-lt.jpg') }}'); background-size: cover; background-position: center;"></div>
+                                    </div>
+                                    
+                                            {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                           <div class="{% if cont == 0 %}active{% set cont = 1  %}{% endif %} item">
+                                        <div style="width: 100%; height: 200px; background-image: url('{{ asset('bundles/casafront2/img/immagine-non-disp-lt.jpg') }}'); background-size: cover; background-position: center;"></div>
+                                    </div>
+                                        {% endif %}
+                                </div>
+                               {% if num_foto > 1 %}
+                                <!-- Carousel nav -->
+                                <a class="carousel-control left" href="#{{ annuncio.scheda.id }}" data-slide="prev">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                                <a class="carousel-control right" href="#{{ annuncio.scheda.id }}" data-slide="next">
+                                    <i class="fa fa-angle-right"></i>
+                                </a> 
+                                    {% endif %}
+                            </div>                
+                        </div>
+                        <!-- END CAROUSEL -->             
+                    </div>
+                             <!-- <ul class="blog-info">
+                            <li><i class="fa fa-calendar"></i> {{annuncio.prezzo.dataPrezzo|date('d/m/Y')}}</li>
+                            <li><i class="fa fa-eye"></i> 3</li>
+                            <li><i class="fa fa-tags"></i> {{ annuncio.scheda.tags }}</li>
+                        </ul>
+                        <p>{{ annuncio.scheda.descrizione }}</p>
+                        <a class="more" href="{{ path('annuncio', {'uid': annuncio.id, 'id': annuncio.scheda.tipologia.categoria.id, 'mode': mode}) }}">Apri scheda <i class="icon-angle-right"></i></a>
+                        -->
+                    <div class="col-md-8 col-sm-8">
+                        <h2><a href="{{ path('annuncio', {'uid': annuncio.id, 'id': annuncio.scheda.tipologia.categoria.id, 'mode': mode}) }}">{{ annuncio.scheda.titoloPubblico }} -         
+                                {% for ann in annuncio.scheda.Prezzi  %}
+                                  
+                                {% if loop.index == 1 %}
+                                   {% if (ann.Vendita == 1 or ann.Affitto == 0) %}
+                                   Vendita
+                                   {% else %}
+                                       Affitto 
+                                       {% endif %}
+                                       {% endif %}
+                                   {% endfor %}</a></h2>
+                        <table class="table-responsive table-annunci">
+                            <tr><td>      {% set con = annuncio.scheda.contratti %}
+                                        {% if con[0].esclusivita == 1 %}
+                                        <span class="label label-sm label-default" >NOSTRA ESCLUSIVA</span>
+                                        {% endif %}
+                                  
+                       </td><td></td><td></td></tr><tr class="blog-info"><td>{% set foo = annuncio.scheda.id|split('-') %}
+                                    <strong>Rif.</strong> {{ foo[0]|upper }}</td><td><i class="fa fa-map-marker"></i> {{ annuncio.scheda.localita }}</td><td>
+                                    {% for ann in annuncio.scheda.Prezzi  %}
+                                   {% if loop.index == 1 %}
+                                   {% if ann.vendita == 1 %}
+                                   {% set prezzo = ann.PrezzoVendita|replace({".":","}) %}
+                                       <div style="width:200px;height:20px;"><i class="fa fa-eur"></i>{{prezzo}}</div>
+                                   {% else %}
+                                      {% set prezzo = ann.PrezzoAffitto|replace({".":","}) %}
+                                   <div style="width:200px;height:20px;"><i class="fa fa-eur"></i>{{prezzo}}</div>
+                                       {% endif %}
+                                       {% endif %}
+                                   {% endfor %}
+                                    
+                                 
+                                        
+                                        
+                                    </td></tr><tr><td>
+                                {{ annuncio.scheda.descrizione|slice(1, 250) }}...
+                                </td><td><i class="fa fa-calendar"></i> {{annuncio.scheda.contratti[0].dataFirma|date('d/m/Y')}}</td><td></td></tr>
+                            
+                        </table>
+                                 {% if is_granted('ROLE_ADMIN') %}
+                     <a href="../scheda/{{ annuncio.scheda.id }}/edit" target="_blank">Modifica Contenuti</a> | 
+                     <a href="../scheda/{{ annuncio.scheda.id }}/fotografie" target="_blank">Modifica Foto</a> |
+                     <a href="../scheda/{{ annuncio.scheda.id }}/caratteristiche" target="_blank">Modifica caratteristiche</a>
+                 {% endif %}
+                    </div>
+                </div>
+                <hr class="blog-post-sep">
+                {% endif %}
+                {% endfor %}
+
+                <div class="text-center">
+                    {{ knp_pagination_render(entities, 'MetronicAdminBundle::pagination/sliding.html.twig') }}
+                </div>                
+            </div>
+            <!-- END LEFT SIDEBAR -->
+
+            <!-- BEGIN RIGHT SIDEBAR -->            
+   
+            <!-- END RIGHT SIDEBAR -->            
+        </div>
+        <!-- END BEGIN BLOG -->
+    </div>
+{% endblock content %}

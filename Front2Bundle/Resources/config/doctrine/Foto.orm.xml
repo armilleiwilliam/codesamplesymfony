@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity repository-class="Casa\Front2Bundle\Entity\FotoRepository" name="Casa\Front2Bundle\Entity\Foto" table="scheda_foto">
+        <id name="id" type="string" column="id">
+            <generator strategy="UUID"/>
+        </id>
+        <many-to-one field="contratto" target-entity="Casa\Front2Bundle\Entity\Contratto" inversed-by="contratto" cascade="persist">
+            <join-column name="contratto_id" referenced-column-name="id" nullable="true" on-delete="cascade" />
+        </many-to-one>
+        <field name="file" type="string" column="file" length="255"/>
+        <field name="json" type="array" column="json" nullable="true"/>
+
+        <field name="principale" type="boolean" column="principale" nullable="true"/>
+    </entity>
+</doctrine-mapping>

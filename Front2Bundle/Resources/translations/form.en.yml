@@ -1,0 +1,13 @@
+## YAML Template.
+foto:
+    error:
+         file:
+              required: "Inserire un immagine"
+form:
+    error:
+         nome:
+             required: "Inserisci il nome"
+         cognome:
+             required: "Inserisci il cognome"
+         telefono:
+             required: "Inserisci il telefono"

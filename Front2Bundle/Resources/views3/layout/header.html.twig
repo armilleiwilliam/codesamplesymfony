@@ -1,0 +1,63 @@
+<!-- BEGIN HEADER -->
+<!-- BEGIN STYLE CUSTOMIZER -->
+  <!--   <div class="color-panel hidden-sm">
+      <div class="color-mode-icons icon-color"></div>
+      <div class="color-mode-icons icon-color-close"></div>
+      <div class="color-mode">
+        <p>THEME COLOR</p>
+        <ul class="inline">
+          <li class="color-red current color-default" data-style="red"></li>
+          <li class="color-blue" data-style="blue"></li>
+          <li class="color-green" data-style="green"></li>
+          <li class="color-orange" data-style="orange"></li>
+          <li class="color-gray" data-style="gray"></li>
+          <li class="color-turquoise" data-style="turquoise"></li>
+        </ul>
+      </div>
+    </div> -->
+    <!-- END BEGIN STYLE CUSTOMIZER --> 
+
+    <!-- BEGIN TOP BAR -->
+    <div class="pre-header">
+        <div class="container">
+            <div class="row">
+                <!-- BEGIN TOP BAR LEFT PART -->
+                <div class="col-md-6 col-sm-6 additional-shop-info">
+                  
+                       {% include "CasaFront2Bundle::layout/header/contacts.html.twig" %}
+                        <!-- END LANGS -->
+                   <img src="{{ asset('bundles/casafront2/img/img_non_disp.jpg') }}"  class="logo-up2" />
+                </div>
+                <!-- END TOP BAR LEFT PART -->
+                <!-- BEGIN TOP BAR MENU -->
+       <div class="col-md-6 col-sm-6 additional-nav">
+           <img src="{{ asset('bundles/casafront2/img/img_non_disp.jpg') }}" style="" class="logo-up" />
+                   <!-- <ul class="list-unstyled list-inline pull-right">
+                        <li><a href="shop-account.html">My Account</a></li>
+                        <li><a href="shop-wishlist.html">My Wishlist</a></li>
+                        <li><a href="shop-checkout.html">Checkout</a></li>
+                        <li><a href="page-login.html">Log In</a></li>
+                    </ul> -->
+                </div>
+                <!-- END TOP BAR MENU -->
+            </div>
+        </div>        
+    </div>
+    <!-- END TOP BAR -->
+
+    <!-- BEGIN HEADER -->
+    <div class="header">
+      <div class="container">
+            <div class="header-navigation">
+         {{ knp_menu_render('header', {'template': 'CasaFront2Bundle::layout/header/knp_menu.html.twig'}) }}
+         <br/>
+    </div>
+        <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+
+        <!-- BEGIN CART -->
+        <!--END CART -->
+
+      </div>
+    </div>
+
+<!-- END HEADER -->

@@ -1,0 +1,7 @@
+{% if categoria %}
+    <ul class="list-group margin-bottom-25 sidebar-menu">
+        {% for cate in categoria %}
+            <li class="list-group-item clearfix"><a href="{{ path('annunci', {'id': cate.id}) }}"><i class="fa fa-angle-right"></i> {{ cate.categoria }}</a></li>
+        {% endfor  %}
+    </ul>
+{% endif %}{# empty Twig template #}

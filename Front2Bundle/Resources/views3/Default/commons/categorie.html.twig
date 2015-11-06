@@ -1,0 +1,8 @@
+{% if categoria %}
+<h3 {% if noTopSpace is defined %}class="no-top-space"{% endif %}>Tipologie {{ categoria.categoria }}</h3>
+<ul class="nav sidebar-categories margin-bottom-40">
+    {% for tipologia in categoria.tipologie %}
+        <li><a href="#">{{ tipologia.tipologia }}</a></li>
+    {% endfor  %}
+</ul>
+{% endif  %}

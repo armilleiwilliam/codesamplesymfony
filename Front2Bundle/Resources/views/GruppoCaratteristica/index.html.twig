@@ -1,0 +1,49 @@
+{% set page_title = 'Gruppo Informazioni' %}
+{% set page_subtitle = '' %}
+
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-money"></i>Gruppi</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <button class="btn green btn-xs" onclick="window.location = '{{ path('configurazione_gruppi_new') }}';">Nuovo gruppo informazioni</button></a>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Gruppo</th>
+                                    <th>Icona</th>
+                                    <th>#Caratteristiche</th>
+                                    <th width="40">Op.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entity in entities %}
+                                    <tr>
+                                        <td>{{ entity.gruppo }}</td>
+                                        <td><img src="{{ asset(entity.icona) }}" alt="" /></td>
+                                        <td>{{ entity.caratteristiche|length }}</td>
+                                        <td>                            
+                                            <button class="btn yellow btn-xs" onclick="window.location = '{{ path('configurazione_gruppi_edit', { 'id': entity.id }) }}';">Modifica</button></a>
+                                            <button class="btn blue btn-xs" onclick="window.location = '{{ path('configurazione_gruppi_caratteristiche', { 'gruppo': entity.id }) }}';">Caratteristiche</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+{% endblock %}

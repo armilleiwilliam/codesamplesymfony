@@ -1,0 +1,30 @@
+{% javascripts  
+    '@MetronicFrontendBundle/Resources/public/plugins/jquery-1.10.2.min.js'
+    '@MetronicFrontendBundle/Resources/public/plugins/jquery-migrate-1.2.1.min.js'
+    '@MetronicFrontendBundle/Resources/public/plugins/bootstrap/js/bootstrap.min.js'
+    '@MetronicFrontendBundle/Resources/public/plugins/hover-dropdown.js'
+    '@MetronicFrontendBundle/Resources/assetic/plugins/back-to-top.js'
+    '@MetronicFrontendBundle/Resources/scripts/app.js'
+    '@MetronicFrontendBundle/Resources/plugins/jquery-1.11.0.min.js'
+    '@MetronicFrontendBundle/Resources/plugins/jquery-migrate-1.2.1.min.js'
+    '@MetronicFrontendBundle/Resources/plugins/bootstrap/js/bootstrap.min.js'
+    '@MetronicFrontendBundle/Resources/layout/scripts/back-to-top.js'
+    '@CasaFront2Bundle/Resources/layout/scripts/back-to-top.js'
+    '@CasaFront2Bundle/Resources/global/plugins/fancybox/source/jquery.fancybox.pack.js'
+    '@CasaFront2Bundle/Resources/global/plugins/carousel-owl-carousel/owl-carousel/owl.carousel-rtl.js'
+    '@CasaFront2Bundle/Resources/global/plugins/slider-revolution-slider/rs-plugin/js/jquery.themepunch.plugins.min.js'
+    '@CasaFront2Bundle/Resources/global/plugins/slider-revolution-slider/rs-plugin/js/jquery.themepunch.revolution.min.js'
+    '@CasaFront2Bundle/Resources/global/plugins/slider-revolution-slider/rs-plugin/js/jquery.themepunch.tools.min.js'
+    '@CasaFront2Bundle/Resources/pages/scripts/revo-slider-init.js'
+    '@CasaFront2Bundle/Resources/layout/scripts/layout.js'
+    '@FOSJsRoutingBundle/Resources/public/js/router.js'
+    '@BazingaJsTranslationBundle/Resources/public/js/translator.min.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}  
+<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript" src="{{ url('bazinga_jstranslation_js') }}"></script>
+<!--[if lt IE 9]>
+<script src="/bundles/metronicfrontend/plugins/respond.min.js"></script>  
+<![endif]--> 
+

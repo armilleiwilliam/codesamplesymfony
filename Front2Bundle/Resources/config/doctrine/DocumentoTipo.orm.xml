@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity repository-class="Casa\Front2Bundle\Entity\DocumentoTipoRepository" name="Casa\Front2Bundle\Entity\DocumentoTipo" table="scheda_documenti_tipi">
+        <id name="id" type="string" column="id">
+            <generator strategy="UUID"/>
+        </id>
+        <many-to-one field="gruppo" target-entity="Casa\Front2Bundle\Entity\DocumentoGruppo" inversed-by="documentiTipo">
+            <join-column name="gruppo_id" referenced-column-name="id" />
+        </many-to-one>
+        <field name="tipo" type="string" column="tipo" length="255"/>
+        <field name="reperibilita" type="boolean" column="reperibilita" nullable="true"/>
+        <field name="consegnare" type="boolean" column="consegnare" nullable="true"/>
+        <one-to-many field="documenti" target-entity="Casa\Front2Bundle\Entity\Documento" mapped-by="tipo" />
+    </entity>
+</doctrine-mapping>

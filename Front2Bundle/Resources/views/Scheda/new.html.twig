@@ -1,0 +1,93 @@
+{% set page_title = 'Scheda Immobile' %}
+{% set page_subtitle = 'Step 1' %}
+{% extends '::base.html.twig' %}
+{% form_theme form 'MetronicAdminBundle::form/empty.html.twig' %}
+{% form_theme formContatto 'MetronicAdminBundle::form/base.html.twig' %}
+
+{% block js %}
+     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+{% javascripts  
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9-custom.min.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/gmaps/gmaps.js'
+    '@CasaFront2Bundle/Resources/public/js/scheda/new.js'
+    '@CasaFront2Bundle/Resources/public/js/contratto/new.js'
+%}  
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}      
+{% endblock js %}
+
+{% block ready_js %}
+    Form.init();
+{% endblock ready_js %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-building"></i>Nuova Scheda</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+            {{ form_start(form) }}
+             <div class="input-group">
+                                    {{ form_widget(form.proprietario) }}
+                                    <span class="input-group-btn">
+                                        <a class="btn green" data-toggle="modal" href="#nuovoProprietario">Nuovo</a>
+                                    </span>
+                                </div><br/>
+            {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+         
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+    <div class="col-md-4">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-map-marker"></i>Mappa</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="gmap" class="gmaps">
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<button class="btn yellow btn-xs" onclick="window.location='{{ path('scheda') }}';">Torna indietro</button></a>
+    <div class="modal fade" id="nuovoProprietario" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{ form_start(formContatto) }}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Nuovo proprietario</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_rest(formContatto) }}
+                </div>
+                {{ form_end(formContatto) }}
+                <div class="modal-footer">
+                    <button type="button" class="btn default" id="proprietario-chiudi" data-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn blue" id="casa_corebundle_contatto_button_new">Aggiungi</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+{% endblock %}

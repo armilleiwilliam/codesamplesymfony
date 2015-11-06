@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity repository-class="Casa\Front2Bundle\Entity\ContrattoRepository" name="Casa\Front2Bundle\Entity\Contratto" table="scheda_contratti">
+        <id name="id" type="string" column="id">
+            <generator strategy="UUID"/>
+        </id>
+        <field name="dataFirma" type="date" column="data_firma"/>
+        <many-to-one field="proprietario" target-entity="Casa\Front2Bundle\Entity\Contatto" inversed-by="contratti" cascade="persist">
+            <join-column name="proprietario_id" referenced-column-name="id" nullable="true" on-delete="cascade" />
+        </many-to-one>        
+        <field name="esclusivita" type="boolean" column="esclusivita" nullable="true" />
+        <field name="pullicazioneFoto" type="boolean" column="pullicazione_foto" nullable="true" />
+        <field name="collaborazioni" type="boolean" column="collaborazioni" nullable="true" />
+        <many-to-one field="scheda" target-entity="Casa\Front2Bundle\Entity\Scheda" inversed-by="contratti" cascade="persist">
+            <join-column name="scheda_id" referenced-column-name="id" nullable="true" on-delete="cascade" />
+        </many-to-one>
+        <many-to-one field="agenzia" target-entity="Casa\UserBundle\Entity\Agenzia" inversed-by="contratti" cascade="persist">
+            <join-column name="agenzia_id" referenced-column-name="id" nullable="true" on-delete="cascade" />
+        </many-to-one>
+        <many-to-one field="prezzo" target-entity="Casa\Front2Bundle\Entity\Prezzo" cascade="persist">
+            <join-column name="prezzo_id" referenced-column-name="id" nullable="true" on-delete="cascade" />
+        </many-to-one>
+        <one-to-many field="prezzi" target-entity="Casa\Front2Bundle\Entity\Prezzo" mapped-by="contratto">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+            <order-by>
+                <order-by-field name="dataPrezzo" direction="DESC" />
+            </order-by>
+        </one-to-many>
+        <one-to-many field="documenti" target-entity="Casa\Front2Bundle\Entity\Documento" mapped-by="contratto">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-many>
+        <one-to-many field="foto" target-entity="Casa\Front2Bundle\Entity\Foto" mapped-by="contratto">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-many>
+    </entity>
+</doctrine-mapping>

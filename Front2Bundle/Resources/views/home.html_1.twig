@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="{% if app.user.local is defined %}{{ app.user.local }}{% else %}en{% endif %}"> <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+    <head>
+        <meta charset="utf-8" />
+        <title>{% block title %}Metronic Frontend{% endblock title %}</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <meta content="{% block description %}{% endblock description %}" name="description" />
+        <meta content="{% block author %}{% endblock author %}" name="author" />
+
+        {% block meta %}
+        {% endblock meta %}
+        
+        <!-- BEGIN GLOBAL MANDATORY STYLES --> 
+        {% block basecss %}
+    
+        {% endblock %}
+        <!-- END GLOBAL MANDATORY STYLES --> 
+        
+        <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+        {% block css %}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+{% stylesheets 
+    '@CasaFront2Bundle/Resources/public/global/plugins/bootstrap/css/bootstrap.min.css'
+%}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+
+{% stylesheets 
+    '@CasaFront2Bundle/Resources/public/global/plugins/fancybox/source/jquery.fancybox.css'
+    '@CasaFront2Bundle/Resources/public/global/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.css'
+    '@CasaFront2Bundle/Resources/public/global/plugins/slider-layer-slider/css/layerslider.css'
+%}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% stylesheets 
+'@CasaFront2Bundle/Resources/views/global/css/components.css'
+'@CasaFront2Bundle/Resources/views/global/css/plugins.css'
+    '@CasaFront2Bundle/Resources/views/layout/css/style.css'
+    '@CasaFront2Bundle/Resources/views/pages/css/style-shop.css'
+    '@CasaFront2Bundle/Resources/views/pages/css/style-layer-slider.css'
+    '@CasaFront2Bundle/Resources/views/layout/css/style-responsive.css'
+    '@CasaFront2Bundle/Resources/views/layout/css/themes/red.css'
+    '@CasaFront2Bundle/Resources/views/layout/css/custom.css' 
+%}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% endblock %}
+        <!-- END PAGE LEVEL PLUGIN STYLES -->
+        
+        <!-- BEGIN THEME STYLES --> 
+        {% block basecss2 %}
+   
+        {% endblock %}
+        <!-- END THEME STYLES --> 
+    <style type="text/css">
+        {% block inline_css %}
+
+        {% endblock %}
+    </style>
+
+    {% block favicon %}
+        {% render(controller("CasaFront2Bundle:Render3:favicon")) %}
+    {% endblock %}
+</head>
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="ecommerce" data-twttr-rendered="true" >
+    {% if nocostumizerstyle is not defined or not nocostumizerstyle %}
+        {% include "CasaFront2Bundle::layout/content/style_customizer.html.twig" %}
+    {% endif %}
+
+    {% block header %}
+        {% render(controller("CasaFront2Bundle:Render3:header")) %}
+    {% endblock %}
+
+    <!-- BEGIN PAGE CONTAINER -->  
+    <div class="page-container">
+        <br/><br/>
+     
+
+        <!-- BEGIN CONTAINER -->   
+        {% block content %}
+        {% endblock %}
+        <!-- END CONTAINER -->
+    </div>
+    <!-- END PAGE CONTAINER -->
+    {% block footer %}
+        {% include "CasaFront2Bundle::layout/footer.html.twig" %}
+        {% include "CasaFront2Bundle::layout/copyright.html.twig" %}
+    {% endblock %}
+    
+    {% block basejs %}
+
+    {% endblock %}
+  
+    {% block js %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% javascripts  
+    '@CasaFront2Bundle/Resources/public/plugins/fancybox/source/jquery.fancybox.pack.js' 
+    '@CasaFront2Bundle/Resources/public/plugins/revolution_slider/rs-plugin/js/jquery.themepunch.plugins.min.js' 
+    '@CasaFront2Bundle/Resources/public/plugins/revolution_slider/rs-plugin/js/jquery.themepunch.revolution.min.js' 
+    '@CasaFront2Bundle/Resources/public/plugins/bxslider/jquery.bxslider.min.js' 
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js' 
+    '@CasaFront2Bundle/Resources/public/scripts/index.js' 
+    '@CasaFront2Bundle/Resources/public/js/mdr.js'
+
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %} 
+
+{% endblock %}
+    <script>
+        {% block inline_js %}{% endblock %}
+        {% block analytics %}{% endblock %}
+
+            {% block ready_js %}{% endblock %}
+   
+    </script>
+    </body>
+<!-- END BODY -->
+</html>
+</html>

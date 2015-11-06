@@ -1,0 +1,85 @@
+{% set page_title = 'Caratteristiche immobile' %}
+{% set page_subtitle = '' %}
+{% extends '::baseJs.html.twig' %}
+
+{% block inline_js %}
+    var lat = {{entity.lat}};
+    var lon = {{entity.lon}};
+{% endblock inline_js %}
+
+{% block css %}
+{% stylesheets
+    '@MetronicAdminBundle/Resources/public/plugins/bootstrap-switch/static/stylesheets/bootstrap-switch-metro.css'
+%}
+<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% endblock css %}
+
+{% block js %}
+    <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+    {% javascripts  
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9-custom.min.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/bootstrap-switch/static/js/bootstrap-switch.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/gmaps/gmaps.js'
+    '@CasaFront2Bundle/Resources/public/js/scheda/caratteristiche.js'
+    %}  
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}      
+{% endblock js %}
+
+{% block ready_js %}
+{% endblock ready_js %}
+
+{% block content %}
+    <div class="row">
+        {% include 'CasaFront2Bundle:Scheda:commons/riepilogo.html.twig' %}
+        <div class="col-md-8">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-map-marker"></i>Caratterstiche</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <form action="{{ path('scheda_caratteristiche_salva', {'id': entity.id}) }}" method="post">
+                        <ul class="nav nav-tabs">
+                            {% for gruppo in gruppi %}
+                                <li {% if loop.first %}class="active"{% endif %}><a href="#tabs-{{ gruppo.id }}" data-toggle="tab"><img src="{{ asset(gruppo.icona) }}" alt="{{ gruppo.gruppo }}" title="{{gruppo.gruppo}}" /><br/></a></li>
+                            {% endfor %}
+                        </ul>
+                        <div class="tab-content">
+                            {% for gruppo in gruppi %}
+                                <div class="tab-pane fade {% if loop.first %}active in{% endif %}" id="tabs-{{ gruppo.id }}">
+                                    <h3>{{gruppo.gruppo}}</h3>
+                                    <table>
+                                        {% for caratteristica in gruppo.caratteristiche %}
+                                            <tr>
+                                                <th>{{ caratteristica.caratteristica }}</th>
+                                                <td>&nbsp;&nbsp;&nbsp;</td>
+                                                <td>
+                                                    {% include "CasaFront2Bundle:Scheda:caratteristiche/tipo/"~caratteristica.tipo~".html.twig" %} {{ caratteristica.uumm }}
+                                                    <script type="text/javascript">
+                                                    {{ caratteristica.js|raw }}
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button type="submit">Salva</button>
+                    </form>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+
+    <button class="btn yellow btn-xs" onclick="window.location = '{{ path('scheda') }}';">Torna indietro</button></a>
+{% endblock content %}

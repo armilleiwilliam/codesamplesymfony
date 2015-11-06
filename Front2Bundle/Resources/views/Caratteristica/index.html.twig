@@ -1,0 +1,49 @@
+{% set page_title = 'Caratteristiche '~g.gruppo %}
+{% set page_subtitle = '' %}
+
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-money"></i>Caratteristiche {{ g.gruppo }}</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <button class="btn green btn-xs" onclick="window.location = '{{ path('configurazione_gruppi_caratteristiche_new', {'gruppo': gruppo}) }}';">Nuovo caratteristica</button></a>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Caratteristica</th>
+                                    <th>Tipo</th>
+                                    <th>Unità di misura</th>
+                                    <th width="40">Op.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entity in entities %}
+                                    <tr>
+                                        <td>{{ entity.caratteristica }}</td>
+                                        <td>{{ entity.tipo }}</td>
+                                        <td>{{ entity.uumm }}</td>
+                                        <td>                           
+                                            <button class="btn yellow btn-xs" onclick="window.location = '{{ path('configurazione_gruppi_caratteristiche_edit', { 'id': entity.id }) }}';">edit</button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+
+{% endblock %}

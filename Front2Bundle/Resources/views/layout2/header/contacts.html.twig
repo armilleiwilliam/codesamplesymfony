@@ -1,0 +1,13 @@
+{% if phone or email %}
+    <ul class="list-unstyle inline">
+        {% if phone %}
+            <li><i class="fa fa-phone topbar-info-icon top-2"></i>Chiamaci: <span>{{ phone }}</span></li>
+        {% endif %}
+        {% if phone and email %}
+            <li class="sep"><span>|</span></li>
+        {% endif %}
+        {% if email %}
+            <li><i class="fa fa-envelope-o topbar-info-icon top-2"></i>Email: <span>{{ email }}</span></li>
+        {% endif %}
+    </ul>
+{% endif %}

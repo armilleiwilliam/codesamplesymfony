@@ -1,0 +1,17 @@
+{% if phone or email %}
+    <ul class="list-unstyled list-inline">
+        {% if phone %}
+            <li>Telefono: <span>{{ phone }}</span></li>
+        {% endif %}
+        {% if email %}
+            <li>Email: <span>{{ email }}</span></li>
+        {% endif %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %} 
+         <li> <a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+       
+        {% else %}
+         <li> <a href="/login" target="_blank">Accedi</a></li>
+        
+         {% endif %}
+    </ul>
+{% endif %}

@@ -1,0 +1,86 @@
+{% set page_title = 'DocumentoTipo' %}
+{% set page_subtitle = '' %}
+
+{% extends '::base.html.twig' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-file-text-o"></i>Tipo Documenti</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <button class="btn green btn-xs" onclick="window.location='{{ path('gestione_tipo-documenti_new') }}';">Nuovo Tipo Documenti</button></a>
+                <div class="table-responsive">
+                    <table class="table table-striped table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th>Gruppo</th>
+                                <th>Tipo</th>
+                                <th>Reperibilita</th>
+                                <th>Consegnare</th>
+                                <th width="40">Op.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in tipo %}
+                            <tr>
+                                <td>{{ entity.gruppo.gruppo }}</td>
+                                <td>{{ entity.tipo }}</td>
+                                <td>{% if entity.reperibilita %}SI{% endif %}</td>
+                                <td>{% if entity.consegnare %}SI{% endif %}</td>
+                                <td>                            
+                                    <button class="btn yellow btn-xs" onclick="window.location='{{ path('gestione_tipo-documenti_edit', { 'id': entity.id }) }}';">edit</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+    <div class="col-md-6">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-file-text-o"></i>Gruppi Documenti</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <button class="btn green btn-xs" onclick="window.location='{{ path('gestione_tipo-documenti_gruppi-documenti_new') }}';">Nuovo Gruppo Documenti</button></a>
+                <div class="table-responsive">
+                    <table class="table table-striped table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th>Gruppo</th>
+                                <th width="40">Op.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in gruppo %}
+                            <tr>
+                                <td>{{ entity.gruppo }}</td>
+                                <td>                            
+                                    <button class="btn yellow btn-xs" onclick="window.location='{{ path('gestione_tipo-documenti_gruppi-documenti_edit', { 'id': entity.id }) }}';">edit</button></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+{% endblock %}

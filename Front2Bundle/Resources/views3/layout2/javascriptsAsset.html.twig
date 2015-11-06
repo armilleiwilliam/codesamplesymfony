@@ -1,0 +1,16 @@
+{% javascripts  
+    '@MetronicFrontendBundle/Resources/public/plugins/jquery-1.10.2.min.js'
+    '@MetronicFrontendBundle/Resources/public/plugins/jquery-migrate-1.2.1.min.js'
+    '@MetronicFrontendBundle/Resources/public/plugins/bootstrap/js/bootstrap.min.js'
+    '@MetronicFrontendBundle/Resources/public/plugins/hover-dropdown.js'
+    '@MetronicFrontendBundle/Resources/public/assetic/plugins/back-to-top.js'
+    '@MetronicFrontendBundle/Resources/public/scripts/app.js'
+    '@FOSJsRoutingBundle/Resources/public/js/router.js'
+    '@BazingaJsTranslationBundle/Resources/public/js/translator.min.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}  
+<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript" src="{{ url('bazinga_jstranslation_js') }}"></script>
+
+

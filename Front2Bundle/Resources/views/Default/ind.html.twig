@@ -1,0 +1,25 @@
+{% set sliderTwig = 'CasaFront2Bundle::mdr_prova.html.twig' %}
+{% block content %}
+                {% include sliderTwig %}
+{% endblock content %}
+ {% block footer %}
+          <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% endblock %}
+    {% block js5 %}
+{% javascripts  
+    '@CasaFront2Bundle/Resources/public/global/plugins/jquery-1.11.0.min.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %} 
+{% endblock %}
+{% block js %}
+{% javascripts  
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js'
+    '@CasaFront2Bundle/Resources/public/js/mdr.js'
+
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %} 
+
+{% endblock %}

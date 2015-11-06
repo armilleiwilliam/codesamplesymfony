@@ -1,0 +1,64 @@
+{% form_theme form 'MetronicAdminBundle::form/empty.html.twig' %}
+{% stylesheets 
+'@MetronicFrontendBundle/Resources/public/plugins/fancybox/source/jquery.fancybox.css'
+    '@MetronicFrontendBundle/Resources/public/plugins/bxslider/jquery.bxslider.css'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.css'
+    '@JFUtilityBundle/Resources/public/css/utility.css'
+    '@CasaFront2Bundle/Resources/public/css/mdr.css'
+    '@MetronicAdminBundle/Resources/public/assetic/plugins/bootstrap/css/bootstrap.min.css'	
+%}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+
+{% if home is defined  %}
+<div class="row box-ricerca box-ricerca-home">
+{% else %}
+    <div class="row box-ricerca box-annunci"{% if visiblebox is defined %} style="display:block;" {% endif %}>
+{% endif %}
+{% if annunci is defined %}
+    <h3>Cerca immobile</h3>
+{% endif %}
+    {{ form_start(form, { 'attr': {'class': 'form_ricerca'} }) }}
+    
+    <div class="col-md-12 col-sm-12">          
+        <!-- form_row(form.localita) -->
+    </div>
+    
+    <div class="col-md-12 col-sm-12">
+          
+        {% if set_categoria is defined %}
+        <div class="no-display-i">
+        {% endif %}
+        {{ form_row(form.categoria) }}
+        {% if set_categoria is defined %}
+        </div>
+        {% endif %}
+        {{ form_row(form.tipologia) }}
+    </div>
+    
+    <div class="col-md-12 col-sm-12">          
+        {{ form_row(form.tipo_contratto) }}
+        <div id="pmv" class="pm">
+            {{ form_row(form.prezzo_vendita) }}
+        </div>
+        <div id="pma" class="pm" style="display:none;">
+            {{ form_row(form.prezzo_affitto) }}
+        </div>
+    </div>
+    
+    <div class="col-md-12 col-sm-12">
+       
+        {{ form_rest(form) }}<!-- {% if set_home is not defined %}<a href="#" onclick="ricerca_avanzata();" id="ric-avanz">Ricerca avanzata</a>{% endif %}-->
+          
+    </div>
+    {{ form_end(form) }}           
+
+{% if set_categoria is defined %}
+<script type="text/javascript">
+    document.getElementById('form_categoria').value = {{ set_categoria }};
+</script>
+{% endif %}
+   </div> 
+
+
+

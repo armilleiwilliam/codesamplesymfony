@@ -1,0 +1,31 @@
+<!-- BEGIN HEADER -->
+<div class="header navbar navbar-default navbar-static-top">
+    {% if topbar %}
+        <!-- BEGIN TOP BAR -->
+        <div class="front-topbar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 col-sm-9">
+                        {% include "MetronicFrontendBundle::layout/header/contacts.html.twig" %}
+                    </div>
+                    <div class="col-md-3 col-sm-3 login-reg-links">
+                        {% include "MetronicFrontendBundle::layout/header/access.html.twig" %}
+                    </div>
+                </div>
+            </div>        
+        </div>
+        <!-- END TOP BAR -->
+    {% endif %}
+    <div class="container">
+        <div class="navbar-header">
+            {% include "MetronicFrontendBundle::layout/header/menuToggler.html.twig" %}
+            {% include "MetronicFrontendBundle::layout/header/logo.html.twig" %}
+        </div>
+        <!-- BEGIN TOP NAVIGATION MENU -->
+        <div class="navbar-collapse collapse">
+            {{ knp_menu_render('header', {'template': 'MetronicFrontendBundle::layout/header/knp_menu.html.twig'}) }}
+        </div>
+        <!-- BEGIN TOP NAVIGATION MENU -->
+    </div>
+</div>
+<!-- END HEADER -->

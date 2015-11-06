@@ -1,0 +1,56 @@
+{% form_theme form 'MetronicAdminBundle::form/empty.html.twig' %}
+{% stylesheets 
+'@MetronicFrontendBundle/Resources/public/plugins/fancybox/source/jquery.fancybox.css'
+    '@MetronicFrontendBundle/Resources/public/plugins/bxslider/jquery.bxslider.css'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.css'
+    '@JFUtilityBundle/Resources/public/css/utility.css'
+    '@CasaCoreBundle/Resources/public/css/mdr.css'
+    '@MetronicAdminBundle/Resources/public/assetic/plugins/bootstrap/css/bootstrap.min.css'	
+%}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% block js3 %}
+{% javascripts 
+ '@CasaFront2Bundle/Resources/public/js/mdr.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+
+<div class="row box-ricerca col-md-6" style="margin-left: 500px; padding:20px; border:1px inset #DDDDDD; border-radius: 10px !important; -webkit-border-radius: 10px !important; -moz-border-radius: 10px !important;">
+    {{ form_start(form) }}
+    
+    <div class="col-md-12 col-sm-12">          
+        {{ form_row(form.localita) }}
+    </div>
+    
+    <div class="col-md-12 col-sm-12">
+          
+        {% if set_categoria is defined %}
+        <div class="no-display-i">
+        {% endif %}
+        {{ form_row(form.categoria) }}
+        {% if set_categoria is defined %}
+        </div>
+        {% endif %}
+        {{ form_row(form.tipologia) }}
+    </div>
+    
+    <div class="col-md-12 col-sm-12">          
+        {{ form_row(form.tipo_contratto) }}
+        <div id="pmv" class="pm">
+            {{ form_row(form.prezzo_vendita) }}
+        </div>
+        <div id="pma" class="pm" style="display:none;">
+            {{ form_row(form.prezzo_affitto) }}
+        </div>
+    </div>
+    
+    <div class="col-md-12 col-sm-12">
+       
+            {{ form_rest(form) }}
+          
+    </div>
+    {{ form_end(form) }}           
+</div>
+</div>

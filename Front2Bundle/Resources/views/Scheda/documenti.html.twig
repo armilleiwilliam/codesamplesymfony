@@ -1,0 +1,207 @@
+{% set page_title = 'Documenti contratto' %}
+{% set page_subtitle = '' %}
+{% form_theme form 'MetronicAdminBundle::form/base.html.twig' %}
+{% extends '::baseJs.html.twig' %}
+{% set map = false %}
+{% block inline_js %}
+    var lat = {{entity.lat}};
+    var lon = {{entity.lon}};
+{% endblock inline_js %}
+
+{% block css %}
+{% stylesheets
+    '@MetronicAdminBundle/Resources/public/plugins/bootstrap-switch/static/stylesheets/bootstrap-switch-metro.css'
+    '@MetronicAdminBundle/Resources/public/plugins/fancybox/source/jquery.fancybox.css'
+    '@MetronicAdminBundle/Resources/public/css/pages/portfolio.css'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-file-upload/css/jquery.fileupload.css'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-file-upload/css/jquery.fileupload-ui.css'
+%}
+<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% endblock css %}
+
+{% block js %}
+    <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+    {% javascripts  
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9-custom.min.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/bootstrap-switch/static/js/bootstrap-switch.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/gmaps/gmaps.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-file-upload/js/jquery.fileupload.js'
+    '@CasaFront2Bundle/Resources/public/js/scheda/documenti.js'
+    %}  
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}      
+{% endblock js %}
+
+{% block ready_js %}
+    Form.init();
+{% endblock ready_js %}
+
+{% block content %}
+    <div class="row">
+        {% include 'CasaFront2Bundle:Scheda:commons/riepilogo.html.twig' %}
+        <div class="col-md-8">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-map-marker"></i>Documenti</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+    <span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>Seleziona file</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input id="fileupload" type="file" name="files[]" multiple/>
+    </span>
+    <br>
+    <br>
+    <!-- The global progress bar -->
+    <div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+    </div>
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files tiles"></div>
+    <div id="error"></div>
+              <!--  <div class="portlet-body" style="display:none;">
+                        <ul class="nav nav-tabs">
+                            {% for gruppo in gruppi %}
+                                <li {% if loop.first %}class="active"{% endif %}><a href="#tabs-{{ gruppo.id }}" data-toggle="tab">{{ gruppo.gruppo }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <div class="tab-content">
+                            {% for gruppo in gruppi %}
+                                <div class="tab-pane fade {% if loop.first %}active in{% endif %}" id="tabs-{{ gruppo.id }}">
+                                    <h3>{{gruppo.gruppo}}</h3>
+                                    <table class="table">
+                                        <tr>
+                                            <th>Documento</th>
+                                            <th>Reperibile</th>
+                                            <th>Da consegnare</th>
+                                            <th>Operazioni</th>
+                                        </tr>
+                                        {% for tipo in gruppo.documentiTipo %}
+                                            <tr>
+                                                <td>{{ tipo.tipo }}</td>
+                                                <td>{% if tipo.reperibilita %}SI{% else %}NO{% endif %}</td>
+                                                <td>{% if tipo.consegnare %}SI{% else %}NO{% endif %}</td>
+                                                <td id="op-{{ tipo.id }}">
+                                                    {% if contratto.doc(tipo).id is defined %}
+                                                        <a class="btn btn-small yellow add-doc" data-toggle="modal" href="#nuovoDocumento" tipo="{{ tipo.id }}" contratto="{{ contratto.id }}">Sostituisci</a>
+                                                        <a class="btn btn-small blue add-doc" href="{{ asset(contratto.doc(tipo).file) }}" target="_blank">Scarica</a>
+                                                    {% else %}
+                                                        <a class="btn btn-small green add-doc" data-toggle="modal" href="#nuovoDocumento" tipo="{{ tipo.id }}" contratto="{{ contratto.id }}">Carica</a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            {% endfor %}
+                        </div>
+                </div>-->
+                        <div class="portlet-body">
+                            
+                        <div class="table-scrollable">
+                            <table class="table table-hover">
+                                <thead><tr><th></th><th></th><th></th></tr></thead>
+                                <tbody>
+                                    
+                            {% for documento in docu %}
+                                <tr>
+                                <td>{% set files = documento.file|split('/') %}{{ files|last }}  </td>
+                                <td><a href="{{ asset(documento.file) }}" class="btn btn-circle btn-info" target="_blank"> Scarica</a></td>
+                                <td><a href="{{ path('canc-documenti', {'id': documento.id, 'id_con': entity.id}) }}" class="btn btn-circle red"> Cancella</a></td>
+                                </tr>
+                                {% endfor %}
+                            
+                            </tbody>
+                            </table>
+                            
+                        </div>
+                        </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+               <!-- <script type="text/html" id="tile">
+    <div class="tile image selected no-display-i" id="picture_{id}" >
+        <div class="tile-body">
+            <img src="{thumbnailUrl}" alt="">
+        </div>
+        <div class="tile-object">
+            <div class="name">
+                {name}
+            </div>
+        </div>
+    </div>
+</script>         
+   <div class="modal fade" id="nuovoDocumento" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{ form_start(form) }}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Carica documento</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_rest(form) }}
+                </div>
+                {{ form_end(form) }}
+                <div class="modal-footer">
+                    <button type="button" class="btn default" id="proprietario-chiudi" data-dismiss="modal">Chiudi</button>
+                    <button type="button" id="addDocumento" class="btn blue">Aggiungi</button>
+                </div>
+            </div>
+           
+        </div>
+        
+    </div> -->
+<script type="text/javascript">
+
+        $(function () {
+           
+            'use strict';
+            // Change this to the location of your server-side upload handler:
+            var url = '{{ oneup_uploader_endpoint('documents') }}?attachment={{ contratto.id }}';
+          
+            $('#fileupload').fileupload({
+                url: url,
+                dataType: 'json',
+                done: function (e, data) {
+                     
+                    $('#error').html('');
+                    console.log(data.result);
+                    if (data.result.error) {
+                        $('#error').html(data.result.error);
+                        $('#progress .progress-bar').css('width', '0%');
+                        return false;
+                    }
+                     
+                    $.each(data.result.file, function (index, file) {
+                    });
+                    $('#progress .progress-bar').css('width', '0%');
+                },
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress .progress-bar').css('width', progress + '%');
+                          if(progress==100){
+                        setInterval(function(){
+                            window.location = self.location;
+                        }, 2000);
+                        
+                    }
+                    
+                }
+            }).prop('disabled', !$.support.fileInput)
+                    .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        });
+
+    </script>
+
+    <button class="btn yellow btn-xs" onclick="window.location = '{{ path('scheda') }}';">Torna indietro</button></a>
+{% endblock content %}

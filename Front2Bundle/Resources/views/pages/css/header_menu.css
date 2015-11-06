@@ -1,0 +1,71 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13-gen-2015, 13.04.55
+    Author     : Willy
+*/
+
+/***
+Header and header elements
+***/
+.header {
+    display:none;
+	position: inherit;
+}
+.site-logo {
+	padding-top: 28px;
+	padding-bottom: 27px;
+}
+.reduce-header .site-logo {
+	padding-top: 16px;
+	padding-bottom: 18px;
+}
+
+.header-navigation li.menu-search {
+	top: 31px;
+}
+.header-navigation li.menu-search i {
+	color: #8a949e;
+}
+
+/* Navigation */
+.header-navigation {
+	font: 19px "PT Sans Narrow", sans-serif;
+	letter-spacing: 1px;
+	margin: 0;
+}
+.header-navigation > ul > li > a {
+	color: #767f88;
+	padding: 34px 12px 32px;
+}
+.header-navigation ul > li.active > a,
+.header-navigation ul > li > a:hover,
+.header-navigation ul > li > a:focus,
+.header-navigation ul > li.open > a,
+.header-navigation ul > li.open > a:hover,
+.header-navigation ul > li.open > a:focus {
+	color: #e02222;
+}
+.header-navigation .dropdown-menu > li > a:hover,
+.header-navigation .dropdown-menu > li.active > a,
+.header-navigation .header-navigation-content .header-navigation-col li > a:hover,
+.header-navigation .header-navigation-content .header-navigation-col li.active > a {
+  color: #fff;
+}
+.header-navigation ul > li.active > a {
+	/*border-bottom: 2px solid #E44F00;*/
+	border-bottom: none !important;
+}
+
+.header-navigation > ul > li > .dropdown-menu {
+	margin-top: -3px;
+}
+.reduce-header .header-navigation > ul > li > .dropdown-menu {
+	margin-top: -3px;
+}
+.reduce-header .header-navigation > ul > li.dropdown:hover > a:after { 
+  bottom: 0;
+}

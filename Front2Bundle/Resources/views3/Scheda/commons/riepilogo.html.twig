@@ -1,0 +1,31 @@
+<div class="col-md-4">
+    <!-- BEGIN SAMPLE TABLE PORTLET-->
+    <div class="portlet box grey">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-building"></i>Scheda</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <p><b>Categoria:</b> {{ entity.tipologia.categoria }}</td>
+            <p><b>Tipologia:</b> {{ entity.tipologia }}</td>
+            <p><b>Indirizzo:</b> {{ entity.indirizzo }} - {{ entity.cap }} {{ entity.localita }}</td>
+            <p><b>Descrizione:</b> {{ entity.descrizione|nl2br }}</p>
+            <p><b>Difformità:</b> {{ entity.difformita|nl2br }}</p>
+        </div>
+    </div>
+    <div class="portlet box grey">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-building"></i>Mappa</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div id="gmap" class="gmaps">
+            </div>
+        </div>
+    </div>
+    <!-- END SAMPLE TABLE PORTLET-->
+</div>

@@ -1,0 +1,196 @@
+{% set sliderTwig = 'CasaFront2Bundle:Default:annunci/titolo.html.twig' %}
+{% extends '::home.html.twig' %}
+{% set mostra_motore = true %}
+{% set sliderTwigb = 'CasaFront2Bundle::mdr.html.twig' %}
+{% set sliderTwigParam = {  'visiblebox': true, 'set_home': true} %}
+
+{% set num_foto = 0 %}
+{% block js %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+    {% javascripts  
+    '@CasaFront2Bundle/Resources/public/js/mdr.js'
+    %}  
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}      
+
+<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+<!-- // @MetronicFrontendBundle/Resources/public/scripts/contact-us.js || TOLTO -->
+ {% javascripts
+    'bundles/bazingajstranslation/js/translator.min.js'
+    'js/translations/config.js'
+    'js/translations/form/*.js'
+    '@CasaFront2Bundle/Resources/public/plugins/jquery-1.10.2.min.js'
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9-custom.min.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@CasaFront2Bundle/Resources/public/js/default/annuncio.js'
+    '@CasaFront2Bundle/Resources/public/js/mdr.js'
+    '@CasaFront2Bundle/Resources/public/plugins/PgwSlideshow-master/pgwslideshow.js'
+
+%}
+
+<script type="text/javascript" src="{{ asset_url }}"></script>
+
+    
+{% endjavascripts %} 
+    {% stylesheets
+    '@CasaFront2Bundle/Resources/public/plugins/PgwSlideshow-master/pgwslideshow.min.css'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
+    <script>
+    $(document).ready(function() {
+           $('.blog-item-img').fadeIn();
+
+
+});
+
+    </script>
+    {% if annuncio.foto|length > 0 %}
+            <script>
+    $(document).ready(function() {
+     
+    $('.pgwSlideshow').pgwSlideshow();
+
+});
+
+    </script>
+        {% endif %}
+{% endblock %}
+
+{% block ready_js %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="container min-hight">
+                             {% if sliderTwigb is defined  %}
+            {% if sliderTwigParam is defined  %}
+                {% include sliderTwigb with sliderTwigParam%}
+            {% else %}
+                {% include sliderTwigb %}
+            {% endif %}
+        {% endif %}
+        <!-- BEGIN BLOG -->
+        <div class="row">
+            <!-- BEGIN LEFT SIDEBAR -->            
+            <div class="col-md-9 blog-item margin-bottom-40">
+                <h2 class="no-top-space">{{ annuncio.scheda.titoloPubblico }}</h2>
+                <div class="blog-item-img no-display">
+                    <!-- BEGIN CAROUSEL -->            
+           {% if annuncio.foto|length == 0 %}
+               <img src="{{ asset("/bundles/casafront2/img/immagine-non-disp-big.jpg") }}" alt=""/>
+               {% endif %}
+                            <!-- Carousel items -->
+                              <ul class="pgwSlideshow">
+
+                       
+                                    {% if annuncio.foto|length > 0 %}
+                                    {% for foto in annuncio.foto %}
+                                        {% set filec = foto.file %}
+                                           
+                                        {% set num_foto = loop.length %}
+                                        <!-- Verifica esistenza vecchio percorso immagini -->
+                                        {% if file_exists(foto.file) %}
+                                            {% set file = foto.file %}
+                                            <!-- Verifica nuovo percorso immagini -->
+                                            {% elseif file_exists("uploads/gallery/#{filec}") %}
+                                                {% set file = "uploads/gallery/#{filec}" %}
+                                                {% else %}
+                                                   {% set file = false %} 
+                                            {% endif %}
+                                      
+                                 <li><img src="{{ asset(file) }}" alt=""/>
+</li>
+   
+     
+   
+    {% endfor %}{% endif %}
+</ul>
+                    <!-- END CAROUSEL -->             
+                </div>
+                <ul class="blog-info">
+                    <li><i class="fa fa-user"></i> </li>
+                    <li><i class="fa fa-calendar"></i> {{annuncio.scheda.contratti[0].dataFirma|date('d/m/Y')}}</li>
+                    <li><i class="fa fa-eye"></i> 3</li>
+                    <li><i class="fa fa-tags"></i> {{ annuncio.scheda.tags }}</li>
+                    <li>{% for ann in annuncio.scheda.Prezzi  %}
+                                   {% if loop.index == 1 %}
+                                   {% if ann.vendita == 1 %}
+                                   {% set prezzo = ann.PrezzoVendita|replace({".":","}) %}
+                                       <div style="width:200px;height:20px;"><i class="fa fa-euro"></i>{{prezzo}}</div>
+                                   {% else %}
+                                      {% set prezzo = ann.PrezzoAffitto|replace({".":","}) %}
+                                   <div style="width:200px;height:20px;"><i class="fa fa-euro"></i>{{prezzo}}</div>
+                                       {% endif %}
+                                       {% endif %}
+                                   {% endfor %}
+                        
+                      
+                        
+                        
+                                   </li><li>{% set foo = annuncio.scheda.id|split('-') %}
+                                    <strong>Rif.</strong> {{ foo[0]|upper }}</li><li>{% if annuncio.esclusivita %}NOSTRA ESCLUSIVA{% endif %}</li>
+                </ul>
+                <p>{{ annuncio.scheda.descrizione }}</p>
+                <blockquote>
+                    <div class="row">
+                        {% set col = 1 %}
+                        {% set colMax = 2 %}
+                        <div class="col-md-{{ 12 / colMax}}">
+                            {% for caratteristica in annuncio.scheda.caratteristiche %}
+                                {% if loop.index0 > col * annuncio.scheda.caratteristiche|length / colMax and col < colMax %}
+                                    {% set col = col + 1 %}
+                                    </div>
+                                    <div class="col-md-{{ 12 / colMax}}">
+                                {% endif %}
+                                <dl>
+                                    <dt>{{ caratteristica.gruppo.caratteristica }}</dt>
+                                    <dd>{% if(caratteristica.value is defined and caratteristica.value == "") %}no{% else %}{{caratteristica.value}}{%endif%}   {{caratteristica.gruppo.uumm}}</dd>
+                                </dl>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </blockquote>                
+                <hr>
+                                                 {% if is_granted('ROLE_ADMIN') %}
+                     <a href="../../scheda/{{ annuncio.scheda.id }}/edit" target="_blank">Modifica Contenuti</a> | 
+                     <a href="../../scheda/{{ annuncio.scheda.id }}/fotografie" target="_blank">Modifica Foto</a> |
+                     <a href="../../scheda/{{ annuncio.scheda.id }}/caratteristiche" target="_blank">Modifica caratteristiche</a>
+                 {% endif %}
+            </div>
+            <!-- END LEFT SIDEBAR -->
+
+            <!-- BEGIN RIGHT SIDEBAR -->            
+            <div class="col-md-3 blog-sidebar">
+                <a href="javascript:;" class="btn btn-lg default btn-block" id="btn-info">Richiedi informazioni <i class="fa fa-info-circle"></i></a>
+                <div class="post-comment" id="req-info">
+                    <h2 class="no-top-space">Richiedi informazioni</h2>
+                    {% form_theme form_due 'MetronicAdminBundle::form/empty.html.twig' %}
+                    {{ form_start(form_due) }}
+                    {{ form_rest(form_due) }}
+                    {{ form_end(form_due) }}
+                   
+                </div>
+                 <div id="cortesia">
+                    </div>
+                <!-- CATEGORIES START -->
+                {% include 'CasaFront2Bundle:Default:commons/categories.html.twig' %}
+                <!-- CATEGORIES END -->
+            </div>
+            <!-- END RIGHT SIDEBAR -->            
+        </div>
+        <!-- END BEGIN BLOG -->
+    </div>
+                <script>
+           
+                    $(document).ready(function(){
+                        $(".mostra-pgw").fadeIn();
+                    });
+                    </script>
+{% endblock content %}
+

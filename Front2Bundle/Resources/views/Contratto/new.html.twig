@@ -1,0 +1,170 @@
+{% set page_title = 'Contratto' %}
+{% set page_subtitle = '' %}
+{% extends '::base.html.twig' %}
+{% form_theme form 'MetronicAdminBundle::form/base.html.twig' %}
+{% form_theme formContatto 'MetronicAdminBundle::form/base.html.twig' %}
+{% block js %}
+<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+{% javascripts  
+    'bundles/bazingajstranslation/js/translator.min.js'
+    'js/translations/config.js'
+    'js/translations/form/*.js'
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9-custom.min.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/gmaps/gmaps.js'
+    '@CasaFront2Bundle/Resources/public/js/contratto/new.js'
+%}  
+
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}      
+{% endblock js %}
+{% block inline_js %}
+    var lat = {{entity.lat}};
+    var lon = {{entity.lon}};
+ 
+
+{% endblock inline_js %}
+
+{% block ready_js %}
+    Form.init();
+    
+{% endblock ready_js %}
+
+{% block content %}
+    <div class="row">
+        {% include 'CasaFront2Bundle:Scheda:commons/riepilogo.html.twig' %}
+        <div class="col-md-8">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-file-o"></i>Nuovo Contratto</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {{ form_start(form) }}
+                    <div class="form-group ">
+                        <div class="input-icon row">
+                            <div class="col-md-8">
+                                {{ form_label(form.proprietario) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_label(form.dataFirma) }}
+                            </div>
+                        </div>
+                        <div class="input-icon row">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    {{ form_widget(form.proprietario) }}
+                                    <span class="input-group-btn">
+                                        <a class="btn green" data-toggle="modal" href="#nuovoProprietario">Nuovo</a>
+                                    </span>
+                                </div>
+                                {{ form_errors(form.proprietario) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_widget(form.dataFirma) }}
+                                {{ form_errors(form.dataFirma) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="input-icon row">
+                            <div class="col-md-4">
+                                {{ form_widget(form.esclusivita) }}
+                                {{ form_errors(form.esclusivita) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_widget(form.pullicazioneFoto) }}
+                                {{ form_errors(form.pullicazioneFoto) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_widget(form.collaborazioni) }}
+                                {{ form_errors(form.collaborazioni) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.prezzi, null, {'label_attr': {'class': 'bold', 'style': 'font-size: 1.5em;'} }) }}
+                        <div class="input-icon row margin-top-10">
+                            <div class="col-md-3">
+                                {{ form_widget(form.prezzi[0].vendita) }}
+                                {{ form_errors(form.prezzi[0].vendita) }}
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_label(form.prezzi[0].prezzoVendita, null, {'label_attr': {'class': 'col-md-3 control-label'} }) }}
+                                <div class="col-md-9">
+                                    {{ form_widget(form.prezzi[0].prezzoVendita) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon row margin-top-10">
+                            <div class="col-md-3">
+                                {{ form_widget(form.prezzi[0].affitto) }}
+                                {{ form_errors(form.prezzi[0].affitto) }}
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_label(form.prezzi[0].prezzoAffitto, null, {'label_attr': {'class': 'col-md-3 control-label'} }) }}
+                                <div class="col-md-9">
+                                    {{ form_widget(form.prezzi[0].prezzoAffitto) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon row margin-top-10">
+                            <div class="col-md-12">
+                                {{ form_widget(form.prezzi[0].trattabili) }}
+                                {{ form_errors(form.prezzi[0].trattabili) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    <div class="modal fade" id="nuovoProprietario" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{ form_start(formContatto) }}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Nuovo proprietario</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_rest(formContatto) }}
+                </div>
+                {{ form_end(formContatto) }}
+                <div class="modal-footer">
+                    <button type="button" class="btn default" id="proprietario-chiudi" data-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn blue" id="casa_corebundle_contatto_button_new">Aggiungi</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <button class="btn yellow btn-xs" onclick="window.location = '{{ path('scheda') }}';">Torna indietro</button></a>
+{% endblock %}
+{% block js2 %}
+<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+{% javascripts  
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9-custom.min.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/gmaps/gmaps.js'
+    '@CasaFront2Bundle/Resources/public/js/contratto/new.js'
+%}  
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}      
+{% endblock js2 %}

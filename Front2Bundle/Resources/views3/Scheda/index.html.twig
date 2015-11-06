@@ -1,0 +1,95 @@
+{% set page_title = 'Scheda' %}
+{% set page_subtitle = '' %}
+
+{% extends '::base.html.twig' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-building"></i>Scheda</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <button class="btn green btn-xs" onclick="window.location='{{ path('scheda_new') }}';">Nuovo scheda</button></a>
+                <div class="table-responsive">
+                    <table class="table table-striped table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tipologia</th>
+                                <th>V/A</th>
+                                <th>Indirizzo</th>
+                                <th>Cap</th>
+                                <th>Localita</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+                                <td>{{ entity.tipologia.tipologia }}</td>
+                                <td>{% if entity.contratti|length > 0 and entity.contratti.first.prezzo %}
+                                    {% if entity.contratti.first.prezzo.vendita %}V{% endif%}
+                                    {% if entity.contratti.first.prezzo.affitto %}A{% endif%}
+                                    {% endif %}
+                                </td>
+                                <td>{{ entity.indirizzo }}</td>
+                                <td>{{ entity.cap }}</td>
+                                <td>{{ entity.localita }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    <button class="btn yellow btn-xs" onclick="window.location='{{ path('scheda_edit', { 'id': entity.id }) }}';">modifica</button>
+                                    {% if entity.caratteristiche|length == 0 %}
+                                        <button class="btn red btn-xs" onclick="window.location='{{ path('scheda_caratteristiche', { 'id': entity.id }) }}';">caratteristiche</button>
+                                    {% else %}
+                                        <button class="btn yellow btn-xs" onclick="window.location='{{ path('scheda_caratteristiche', { 'id': entity.id }) }}';">caratteristiche</button>
+                                    {% endif %}
+                                    {% if entity.contratti|length == 0 %}
+                                        <button class="btn red btn-xs" onclick="window.location='{{ path('scheda-contratti_new', { 'id': entity.id }) }}';">contratto</button>
+                                    {% else %}
+                                        <button class="btn yellow btn-xs" onclick="window.location='{{ path('scheda-contratti_edit', { 'id': entity.id }) }}';">contratto</button>
+                                    {% endif %}
+                                    {% if entity.contratti|length > 0 %}
+                                        {% if entity.contratti[0].foto|length == 0 %}
+                                            <button class="btn red btn-xs" onclick="window.location='{{ path('scheda_fotografie', { 'id': entity.id }) }}';">fotografie</button>
+                                        {% else %}
+                                            <button class="btn yellow btn-xs" onclick="window.location='{{ path('scheda_fotografie', { 'id': entity.id }) }}';">fotografie</button>
+                                        {% endif %}
+                                        {% if entity.contratti[0].documenti|length == 0 %}
+                                            <button class="btn red btn-xs" onclick="window.location='{{ path('scheda_documenti', { 'id': entity.id }) }}';">documenti</button>
+                                        {% else %}
+                                            <button class="btn yellow btn-xs" onclick="window.location='{{ path('scheda_documenti', { 'id': entity.id }) }}';">documenti</button>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+    <div class="col-md-4">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-map-marker"></i>Mappe</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                TODO
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+{% endblock %}

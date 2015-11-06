@@ -1,0 +1,308 @@
+{% set page_title = 'Clienti' %}
+{% set page_subtitle = '' %}
+
+{% extends '::base.html.twig' %}
+{% block js %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+<link href="{{ asset('/bundles/metronicadmin/css/themes/default.css') }}" rel="stylesheet" type="text/css" id="style_color"/>
+
+    {% javascripts  
+    'bundles/bazingajstranslation/js/translator.min.js'
+    'js/translations/config.js'
+    'js/translations/*/*.js'
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9.min.js'
+    '@CasaCalendarBundle/Resources/public/js/fullcalendar.js'
+    '@CasaFront2Bundle/Resources/public/js/contatto/index.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@CasaFront2Bundle/Resources/public/js/contratto/new_contatto.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %} 
+{% endblock %}
+
+{% block inline_js %}
+
+{% endblock %}
+
+{% block ready_js %}
+Form.init();
+{% endblock %}
+
+{% block inline_css %}
+    fc-header-title h2 {
+        font-size: 1em;
+    } 
+    a i.fa {
+        color: #eee;
+    } 
+{% endblock %}
+
+{% block css %}
+{% stylesheets 
+    '@MetronicAdminBundle/Resources/public/plugins/fullcalendar/fullcalendar/fullcalendar.css'
+    '@JFUtilityBundle/Resources/public/css/utility.css'
+%}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="btn blue-madison"><a class="btn green" data-toggle="modal" href="#nuovoProprietario"><i class="fa fa-user"></i> Aggiungi un cliente</a></div>
+             
+        
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    <div class="row" style="display:none;">
+        <div class="col-md-12">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-user"></i> Invia un messaggio ai tuoi contatti</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="expand"></a>
+                    </div>
+                </div>
+                <div class="portlet-body display-hide">
+                    {#
+                    {% form_theme form 'MetronicAdminBundle::form/empty.html.twig' %}
+                    {{ form_start(form) }}
+                    {{ form_widget(form.subject) }}
+                    {{ form_widget(form.body) }}
+                    {{ form_rest(form) }}
+                    <div id="spinner" class="no-display" style="text-align: center;">
+                        <img src="{{ asset('/bundles/metronicadmin/img/ajax-loading.gif') }}" alt="" class="loading">
+                    </div>
+                    {{ form_end(form) }}
+                    #}
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-user"></i>Ex proprietari non associati ad alcuna scheda</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive" style="max-height:500px;overflow: scroll;">
+                        <table class="table table-striped table-condensed table-hover">
+                            
+                            <tbody>
+                                {% for entity in prop_senza %}
+                                  {% if entity.contratti[0].id is not defined%}
+                                      <tr><td colspan="5"></td></tr>
+                                    <tr class="line-up-border">
+                                    <th>Cognome</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Data nascita</th><th></th>
+                                </tr>
+                               
+                                    <tr>
+                                        <td>{{ entity.cognome }}</td>
+                                        <td>{{ entity.nome }}</td>
+                                        <td>{{ entity.email }}</td>
+                                        <td>{{ entity.telefono }}</td>
+                                        <td>{% if entity.dataNascita %}{{ entity.dataNascita|date('d-m-Y') }}{% endif %}</td>
+                                        <td><a href="{{ path('calendario_proprietario', {'id': entity.id, 'id_due': 1}) }}" class="btn btn-xs blue">Scheda</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Indirizzo</th>
+                                        <td colspan="3">
+                                           
+                                        </td>
+                                        <th>Note</th>
+                                        <td><a href="#" class="btn btn-xs red" onclick="var r = confirm('Cancellando un cliente andranno persi tutti i dati ad esso associato'); if(r){window.location='{{ path('canc_proprietario',{'id' : entity.id, 'tipo' : 'cliente'}) }}';}"  data-message="Are you sure you want to delete this type ?">Cancella</a></td>
+                                    </tr>
+                                      <tr>
+                                        
+                                        <td colspan="3">
+                                            {{ entity.indirizzo }} ({{ entity.citta }})
+                                        </td>
+                                       
+                                        <td colspan="3">
+                                            {{ entity.note }}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-user"></i>Proprietari</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive" style="max-height:500px;overflow: scroll;">
+                        <table class="table table-striped table-condensed table-hover">
+                       
+                            
+                                {% for entity2 in proprietari %}
+                                
+                                      <tr><th colspan="1">{{ loop.index }})</th><td colspan="5"></td></tr>
+                                    <tr class="line-up-border">
+                                    <th>Cognome</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Data nascita</th><th></th>
+                                </tr>
+                                
+                                    <tr>
+                                        <td>{{ entity2.cognome }}</td>
+                                        <td>{{ entity2.nome }}</td>
+                                        <td>{{ entity2.email }}</td>
+                                        <td>{{ entity2.telefono }}</td>
+                                        <td>{% if entity2.dataNascita %}{{ entity2.dataNascita|date('d-m-Y') }}{% endif %}</td>
+                                        <td><a href="{{ path('calendario_proprietario', {'id': entity2.id, 'id_due': 1}) }}" class="btn btn-xs blue">Scheda</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Indirizzo</th>
+                                        <td colspan="2">
+                                           
+                                        </td>
+                                        <th>Note</th>
+                                        <td colspan="2">
+                                           
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        
+                                        <td colspan="3">
+                                            {{ entity2.indirizzo }} ({{ entity2.citta }})
+                                        </td>
+                                       
+                                        <td colspan="2">
+                                            {{ entity2.note }}
+                                        </td><td></td>
+                                    </tr>
+                                  
+                                    
+                                {% endfor %}
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+        <div class="col-md-5">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-search"></i>Acquirenti</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+<div class="portlet-body">
+                    <div class="table-responsive" style="max-height:500px;overflow: scroll;">
+                        <table class="table table-striped table-condensed table-hover">
+                       
+                            
+                                {% for entity2 in clienti %}
+                                
+                                      <tr><th colspan="1">{{ loop.index }})</th><td colspan="5"></td></tr>
+                                    <tr class="line-up-border">
+                                    <th>Cognome</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Data Inserimento</th><th>Indirizzo</th>
+                                </tr>
+                                
+                                    <tr>
+                                        <td>{{ entity2.cognome }}</td>
+                                        <td>{{ entity2.nome }}</td>
+                                        <td>{{ entity2.email }}</td>
+                                        <td>{{ entity2.telefono }}</td>
+                                        <td>{% if entity2.dataInserimento %}{{ entity2.dataInserimento|date('d-m-Y') }}{% endif %}</td>
+                                        <td>{{ entity2.indirizzo }} ({{ entity2.citta }})</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Note</th>
+                                        <td colspan="4">
+                                           
+                                        </td>
+                                    <td> <a href="#" class="btn btn-xs red" onclick="var r = confirm('Cancellando un cliente andranno persi tutti i dati ad esso associato'); if(r){window.location='{{ path('canc_proprietario',{'id' : entity2.id, 'tipo' : 'cliente'}) }}';}"  data-message="Are you sure you want to delete this type ?">Cancella</a></td>
+                                    </tr>
+                                      <tr>
+                                    <td colspan="5"> 
+                                            {{ entity2.note }}
+                                        </td><td><a href="{{ path('calendario_proprietario', {'id': entity2.id, 'id_due': 2}) }}" class="btn btn-xs blue">Scheda </a></td>
+                                    </tr>
+                                    <tr>
+                                    <td colspan="6"> 
+                                        {% set cont = 0 %}
+                                            <strong>Tag:</strong>{% if entity2.tipologia is not iterable   %} {{ entity2.tipologia }} {% set cont = cont + 1 %} {% endif %}{% if entity2.locali is defined  %}{% if cont>0 %},{%endif%} Locali {% set cont = cont + 1 %} ({{ entity2.locali }}) {% endif %} {% if entity2.giardino %}{% if cont>0 %},{%endif%} Giardino {% set cont = cont + 1 %} {% endif %} {% if entity2.garage %}{% if cont>0 %},{%endif%} Garage {% set cont = cont + 1 %} {% endif %}{% if entity2.balconi %}{% set cont = cont + 1 %}{% if cont>0 %},{%endif%}  Balconi {% endif %}{% if entity2.autonomo %}{% if cont>0 %},{%endif%} Autonomo {% endif %}
+                                            {% set cont = 0 %}
+                                        </td>
+                                    </tr>
+                                    
+                                  
+                                    
+                                {% endfor %}
+                                {% if clienti|length == 0 %}  La ricerca non ha prodotto alcun risultato {% endif %}
+                            
+                        </table>
+                    </div>
+                </div>
+                              
+            </div>
+                                <h3>Ricerca clienti</h3>
+                                 {{ form_start(formTrovaCliente) }}
+                            {{ form_rest(formTrovaCliente) }}
+                            {{ form_end(formTrovaCliente) }}
+                            {% if pdf %}
+                            <a href="{{ asset("uploads/pdf/file.pdf") }}" target="_blank" class="btn blue">Scarica pdf lista</a>
+                            {% endif %}
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+                                
+                             <!-- BEGIN FORM NEW CONTATTO -->   
+      <div class="modal fade" id="nuovoProprietario" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{ form_start(formContatto, {'class': 'proprietario', 'attr' : {'class':'proprietario'}}) }}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Nuovo Cliente</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_rest(formContatto) }}
+                </div>
+                {{ form_end(formContatto) }}
+                <div class="modal-footer">
+                    <button type="button" class="btn default" id="proprietario-chiudi" data-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn blue" id="casa_corebundle_contatto_button_new">Aggiungi</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    </div>
+
+{% endblock %}

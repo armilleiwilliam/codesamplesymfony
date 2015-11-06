@@ -1,0 +1,122 @@
+{% set sliderTwig = 'MetronicFrontendBundle::layout/demo/map.html.twig' %}
+{% set sliderTwigb = 'CasaFront2Bundle::mdr.html.twig' %}
+{% set mess_inviato = app.session.flashbag.get("esito") %}
+{% set sliderTwigParam = {'set_home': true} %}
+{% set mostra_motore = true %}
+
+{% extends '::home.html.twig' %}
+{% block js %}
+{% javascripts
+    'bundles/bazingajstranslation/js/translator.min.js'
+    'js/translations/config.js'
+    'js/translations/*/*.js' %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+{% javascripts  
+    '@MetronicFrontendBundle/Resources/public/plugins/fancybox/source/jquery.fancybox.pack.js'
+    '@MetronicFrontendBundle/Resources/public/plugins/gmaps/gmaps.js'
+    '@MetronicFrontendBundle/Resources/public/scripts/contact-us.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@CasaFront2Bundle/Resources/public/js/default/dove.js'
+    '@CasaFront2Bundle/Resources/public/js/mdr.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %} 
+{% endblock %}
+
+{% block ready_js %}
+ContactUs.init();
+{% endblock %}
+
+{% block content %}
+             
+{% stylesheets
+    '@CasaFront2Bundle/Resources/public/css/custom.css'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}           
+    <div class="container min-hight">
+        
+                  {% if sliderTwigb is defined and mostra_motore == true %}
+            {% if sliderTwigParam is defined  %}
+                {% include sliderTwigb with sliderTwigParam%}
+            {% else %}
+                {% include sliderTwigb %}
+            {% endif %}
+            {% endif %}
+        
+                {% if mess_inviato is not empty %}
+    {% for con in mess_inviato %}
+        <div class="alert alert-info text-center">{{ con }}</div>
+        {% endfor %}
+{% endif %}
+        <div class="row">
+            <div class="col-md-9 col-sm-9">
+                <h2>Inviaci un messaggio</h2>
+                <p>Sarai ricontattato al pi&ugrave; presto</p>
+                <div class="space20"></div>
+                <!-- BEGIN FORM-->
+                {{ form_start(form_dov,{ 'attr': {'class': 'form_classe_dove'} }) }}
+                
+               
+               
+               
+               
+                    <div class="form-group">
+                        <label class="control-label">Nome</label>
+                        <div class="col-lg-12">
+                          {{ form_widget(form_dov.nome) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" >Email <span class="color-red">*</span></label>
+                        <div class="col-lg-12">
+                            {{ form_widget(form_dov.email) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" >Messggio</label>
+                        <div class="col-lg-12">
+                             {{ form_widget(form_dov.testo) }}
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div style="position:relative;top:20px;"> {{ form_end(form_dov) }}
+             
+                <!-- END FORM-->                  
+            </div></div>
+
+            <div class="col-md-3 col-sm-3">
+                <h2>Contatti:</h2>
+                <address>
+                    <strong>Agenzia immobiliare</strong><br>
+                    Via Piemonte, 58<br>
+                    57124, Livorno<br>
+                    <abbr title="Phone">T:</abbr> 3282784650
+                </address>
+                <address>
+                    <strong>Email</strong><br>
+                    <a href="mailto:#">info@gmail.com</a><br>
+                    <a href="mailto:#">support@gmail.com</a>
+                </address>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d11685.976489830697!2d10.7918095!3d42.9257089!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sit!4v1432043242210" width="200" height="150" frameborder="0" style="border:0"></iframe>
+                <ul class="social-icons margin-bottom-10">
+                    <li><a href="#" data-original-title="facebook" class="facebook"></a></li>
+                    <li><a href="#" data-original-title="github" class="github"></a></li>
+                    <li><a href="#" data-original-title="Goole Plus" class="googleplus"></a></li>
+                    <li><a href="#" data-original-title="linkedin" class="linkedin"></a></li>
+                    <li><a href="#" data-original-title="rss" class="rss"></a></li>
+                </ul>
+
+                <div class="clearfix margin-bottom-30"></div>
+
+                                            
+            </div>            
+        </div>
+    </div>
+{% endblock content %}

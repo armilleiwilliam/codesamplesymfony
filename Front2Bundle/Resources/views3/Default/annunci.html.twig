@@ -1,0 +1,72 @@
+{% set sliderTwig = 'CasaFront2Bundle::mdr.html.twig' %}
+{% if categoria %}
+{% set sliderTwigParam = {'set_categoria': categoria.id, 'collassato': true} %}
+{% else %}
+{% set sliderTwigParam = {'collassato': true} %}
+{% endif %}
+{% extends '::home.html.twig' %}
+
+
+{% block content %}
+    {% include 'CasaFront2Bundle:Default:annunci/titolo.html.twig' %}
+    <div class="container min-hight">
+        <!-- BEGIN BLOG -->
+        <div class="row">
+            <!-- BEGIN LEFT SIDEBAR -->            
+            <div class="col-md-9 col-sm-9 blog-posts margin-bottom-40">
+                {% for annuncio in entities %}
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <!-- BEGIN CAROUSEL -->            
+                        <div class="front-carousel">
+                            <div id="{{ annuncio.scheda.id }}" class="carousel slide">
+                                <!-- Carousel items -->
+                                <div class="carousel-inner">
+                                    {% for foto in annuncio.foto %}
+                                    <div class="{% if foto.principale %}active {% endif %}item">
+                                        <div style="width: 100%; height: 200px; background-image: url('{{ asset(foto.file) }}'); background-size: cover; background-position: center;"></div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <!-- Carousel nav -->
+                                <a class="carousel-control left" href="#{{ annuncio.scheda.id }}" data-slide="prev">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                                <a class="carousel-control right" href="#{{ annuncio.scheda.id }}" data-slide="next">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>                
+                        </div>
+                        <!-- END CAROUSEL -->             
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <h2><a href="{{ path('annuncio', {'uid': annuncio.id, 'id': annuncio.scheda.tipologia.categoria.id, 'mode': mode}) }}">{{ annuncio.scheda.titoloPubblico }}</a></h2>
+                        <ul class="blog-info">
+                            <li><i class="fa fa-calendar"></i> {{annuncio.prezzo.dataPrezzo|date('d/m/Y')}}</li>
+                            <li><i class="fa fa-eye"></i> 3</li>
+                            <li><i class="fa fa-tags"></i> {{ annuncio.scheda.tags }}</li>
+                        </ul>
+                        <p>{{ annuncio.scheda.descrizione }}</p>
+                        <a class="more" href="{{ path('annuncio', {'uid': annuncio.id, 'id': annuncio.scheda.tipologia.categoria.id, 'mode': mode}) }}">Apri scheda <i class="icon-angle-right"></i></a>
+                    </div>
+                </div>
+                <hr class="blog-post-sep">
+                {% endfor %}
+
+                <div class="text-center">
+                    {{ knp_pagination_render(entities, 'MetronicAdminBundle::pagination/sliding.html.twig') }}
+                </div>                
+            </div>
+            <!-- END LEFT SIDEBAR -->
+
+            <!-- BEGIN RIGHT SIDEBAR -->            
+            <div class="col-md-3 col-sm-3 blog-sidebar">
+                <!-- CATEGORIES START -->
+                {% include 'CasaFront2Bundle:Default:commons/categorie.html.twig' with {'noTopSpace': true}%}
+                <!-- CATEGORIES END -->
+            </div>
+            <!-- END RIGHT SIDEBAR -->            
+        </div>
+        <!-- END BEGIN BLOG -->
+    </div>
+{% endblock content %}

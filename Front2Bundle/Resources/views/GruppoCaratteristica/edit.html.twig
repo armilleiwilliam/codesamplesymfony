@@ -1,0 +1,65 @@
+{% set page_title = 'GruppoCaratteristica' %}
+{% set page_subtitle = '' %}
+{% extends '::base.html.twig' %}
+{% form_theme edit_form 'MetronicAdminBundle::form/empty.html.twig' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-money"></i>Modifica GruppoCaratteristica</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                {{ form_start(edit_form) }}
+                {{ form_rest(edit_form) }}
+                {{ form_end(edit_form) }}
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+    <div class="col-md-4">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-money"></i>Caratteristiche</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th>Caratteristica</th>
+                                <th>Tipo</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for caratteristica in entity.caratteristiche %}
+                                <tr>
+                                    <td>{{ caratteristica.caratteristica }}</td>
+                                    <td>{{ caratteristica.tipo }}</td>
+                                    <td><button class="btn yellow btn-xs" onclick="window.location = '{{ path('configurazione_gruppi_caratteristiche_edit', { 'id': caratteristica.id }) }}';">edit</button></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<button class="btn yellow btn-xs" onclick="window.location='{{ path('configurazione_gruppi') }}';">Torna indietro</button></a>
+<a href="{{ path('configurazione_gruppi') }}">
+    <span class="label label-inverse">Torna indietro</span>
+</a>
+
+{% endblock %}

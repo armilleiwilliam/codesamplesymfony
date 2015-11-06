@@ -1,0 +1,36 @@
+menu:
+    admin: 
+        sub:
+            gruppi:
+                lbl: Caratteristiche
+            tipologie:
+                lbl: Tipologie immobili
+            categorie:
+                lbl: Categorie
+            tipodocumenti:
+                lbl: Tipologie documenti
+    immobili: 
+        lbl: Schede immobili
+    contatti: 
+        lbl: Clienti
+    chi: 
+        lbl: L'agenzia
+    dove: 
+        lbl: Contatti
+    ricerca: 
+        lbl: Ricerca
+    mappe:
+        lbl: Mappe
+    annunci: 
+        lbl: Annunci
+        sub:
+            residenziale: 
+                lbl: Residenziale
+            commerciale: 
+                lbl: Commerciale
+            lusso: 
+                lbl: Lusso
+            agricolo: 
+                lbl: Agricolo
+                
+    

@@ -1,0 +1,209 @@
+{% set page_title = 'Mappe immobili' %}
+{% set page_subtitle = '' %}
+{% extends '::baseJs.html.twig' %}
+
+{% block inline_js %}
+{% endblock inline_js %}
+
+{% block css %}
+{% stylesheets
+    '@MetronicAdminBundle/Resources/public/plugins/bootstrap-switch/static/stylesheets/bootstrap-switch-metro.css'
+%}
+<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% endblock css %}
+
+{% block js %}
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+{% endblock js %}
+
+{% block ready_js %}
+var beaches = [
+{% for imm in app %}
+    {% for immo in imm %}
+    ['{{ immo.indirizzo }}',{{immo.lat}},{{immo.lon}},{{loop.index}}, {{immo.locali}}, {{immo.tipologia.id}}, {{immo.asta}}, {{immo.tipologia.categoria.id}}, '{{immo.contratti[0].id}}']{% if loop.last %}{% else %},{%endif%}
+    {% endfor %}
+    {% endfor %}
+    ];
+   
+    {% endblock ready_js %}
+{% block content %}
+    <div class="row">
+  
+        <div class="col-md-8">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+        
+                   
+
+                       
+               
+                    <div class="portlet solid yellow">
+                        <div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-gift"></i> Mappa appartamenti
+							</div>
+							<div class="tools">
+								<a href="javascript:;" class="collapse" data-original-title="" title="">
+								</a>
+								<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+								</a>
+								<a href="javascript:;" class="reload" data-original-title="" title="">
+								</a>
+								<a href="javascript:;" class="remove" data-original-title="" title="">
+								</a>
+							</div>
+						</div>
+                        
+                        
+                        <div class="portlet-body">
+                        
+                  
+     <div id="map-canvas" class="gmaps" style="height:700px;"></div>
+     </div>
+       
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>  
+        <table><tr><td><img src="{{ asset("/bundles/casafront2/img/home_vill.png") }}" /> = Villetta</td></tr>
+            <tr><td><img src="{{ asset("/bundles/casafront2/img/home0.png") }}" /> = Appartamento</td></tr>
+            <tr><td><img src="{{ asset("/bundles/casafront2/img/casa_campagna0.png") }}" /> = Casa di campagna</td></tr>
+        <tr><td><img src="{{ asset("/bundles/casafront2/img/terreno_agri0.png") }}" /> = Terreno agricolo</td></tr>
+        <tr><td><img src="{{ asset("/bundles/casafront2/img/home0A.png") }}" /> = Immobili all&rsquo;asta</td></tr></table>
+          
+    <table class="table table-hover">
+        {% set pass = 0 %}
+{% for imm in app %}
+    {% for key, immo in imm %}
+        {% set pass = (key % 4) %}
+        
+        {% if pass == 0 %}
+        <tr>
+            {% endif %}
+                <td>{{ loop.index }}) <a href="../visualizza-annuncio/{{immo.contratti[0].id}}/{{immo.tipologia.categoria.id}}/id" target="_blank">{{ immo.indirizzo }}</td>
+             {% if pass == 3 %}
+        </tr>
+           
+            {% endif %}
+
+    {% endfor %}
+    {% endfor %}
+              {% if pass < 3 %}
+                <td></td>
+                {% set pass = (pass + 1) %}
+                {% endif %}
+                            {% if pass < 3 %}
+                <td></td>
+                {% set pass = (pass + 1) %}
+                            </tr>
+                {% endif %}
+    </table>
+
+
+  <script>
+      var listen_one = [];
+// The following example creates complex markers to indicate beaches near
+// Sydney, NSW, Australia. Note that the anchor is set to
+// (0,32) to correspond to the base of the flagpole.
+
+function initialize() {
+  var mapOptions = {
+    zoom: 13,
+    center: new google.maps.LatLng(43.55, 10.32)
+  }
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+                                mapOptions);
+
+  setMarkers(map, beaches);
+}
+
+/**
+ * Data for the markers consisting of a name, a LatLng and a zIndex for
+ * the order in which these markers should display on top of each
+ * other.
+ */
+
+
+function setMarkers(map, locations) {
+  // Add markers to the map
+
+  // Marker sizes are expressed as a Size of X,Y
+  // where the origin of the image (0,0) is located
+  // in the top left of the image.
+
+  // Origins, anchor positions and coordinates of the marker
+  // increase in the X direction to the right and in
+  // the Y direction down.
+
+
+  var image = {
+    url: '', //il percorso dell'immagine è stabilito nel campo 'icon', quindi non è necessario impostarlo in questo punto della programmazione
+    // This marker is 20 pixels wide by 32 pixels tall.
+    size: new google.maps.Size(20, 32),
+    // The origin for this image is 0,0.
+    origin: new google.maps.Point(0,0),
+    // The anchor for this image is the base of the flagpole at 0,32.
+    anchor: new google.maps.Point(0, 32)
+  };
+  
+  // Shapes define the clickable region of the icon.
+  // The type defines an HTML &lt;area&gt; element 'poly' which
+  // traces out a polygon as a series of X,Y points. The final
+  // coordinate closes the poly by connecting to the first
+  // coordinate.
+  var shape = {
+      coords: [1, 1, 1, 20, 18, 20, 18 , 1],
+      type: 'poly'
+  };
+  for (var i = 0; i < locations.length; i++) {
+      var l = i + 1;
+      var num_loc = 0;
+
+      
+    var beach = locations[i];
+    // verrà impostata ad 'A' se sarà un immobile ad asta, altrimenti rimarrà vuoto. Sarà aggiunto come parte del percorso dell'immagine che rappresenta l'immobile'
+    var a = "";
+          if(beach[4] > 10 ){
+          num_loc = 11;
+      } else if (beach[4] > 0 && beach[4] < 11){
+          num_loc = beach[4];
+      }
+      if(beach[5] == 1 )
+      var immo = "home";
+      else if(beach[5] == 2){
+      var immo = "home_vill";
+  }else if(beach[5] == 3){
+      var immo = "casa_campagna";
+  }else if(beach[5] == 4){
+      var immo = "terreno_agri";
+      var num_loc = 0;
+      }
+  else
+      var immo = "home";
+  
+  if(beach[6] == true){
+      var a = "A";
+      var immo = "home";
+  }else
+      var a = "";
+    var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
+    var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        icon: '../../bundles/casafront2/img/'+immo+num_loc+a+'.png',
+        shape: shape,
+        title: l+") "+beach[0],
+        zIndex: beach[3],
+        url: "../visualizza-annuncio/"+beach[8]+"/"+beach[7]+"/id"
+    });
+    
+    google.maps.event.addListener(marker, 'click', function() {
+      window.location.href = this.url;
+  });
+  }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+{% endblock content %}

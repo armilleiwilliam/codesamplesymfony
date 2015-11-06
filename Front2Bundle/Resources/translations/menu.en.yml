@@ -1,0 +1,36 @@
+menu:
+    admin: 
+        sub:
+            gruppi:
+                lbl: Characteristics
+            tipologie:
+                lbl: Realty types
+            categorie:
+                lbl: Categories
+            tipodocumenti:
+                lbl: Document types
+    immobili: 
+        lbl: Realty cards
+    contatti: 
+        lbl: Clients
+    chi: 
+        lbl: The Agency
+    dove: 
+        lbl: Contacts
+    ricerca: 
+        lbl: Research
+    mappe:
+        lbl: Maps
+    annunci: 
+        lbl: Announces
+        sub:
+            residenziale: 
+                lbl: Residential
+            commerciale: 
+                lbl: Commercial
+            lusso: 
+                lbl: Lux
+            agricolo: 
+                lbl: Agricultural
+                
+    

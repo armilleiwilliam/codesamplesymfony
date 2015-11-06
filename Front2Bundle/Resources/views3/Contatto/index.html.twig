@@ -1,0 +1,202 @@
+{% set page_title = 'Clienti' %}
+{% set page_subtitle = '' %}
+
+{% extends '::base.html.twig' %}
+{% block js %}
+<link href="{{ asset('/bundles/metronicadmin/css/themes/default.css') }}" rel="stylesheet" type="text/css" id="style_color"/>
+
+    {% javascripts  
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9.min.js'
+    '@CasaCalendarBundle/Resources/public/js/fullcalendar.js'
+    '@CasaCoreBundle/Resources/public/js/contatto/index.js'
+    '@CasaCoreBundle/Resources/public/js/mdr.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %} 
+{% endblock %}
+
+{% block inline_js %}
+var event_list = [{
+    {% for data in date %}
+                    id: "{{ data.id }}",                        
+                    title: "{{ data.type.name }}",                        
+                    tooltip: "{% if data.contratto %}{{ data.contratto }}{% if data.note %}\n{% endif %}{% endif %}{% if data.note %}{{ data.note }}{% endif %}",                        
+                    uid: {% if data.contratto %}"{{ data.contratto.id }}"{% else %}false{% endif %},                        
+                    start: new Date({{ data.startAt|date('Y') }}, {{ data.startAt|date('m') - 1 }}, {{ data.startAt|date('d') }}, {{ data.startAt|date('H') }}, {{ data.startAt|date('i') }}),
+                    {% if data.endAt %}end: new Date({{ data.endAt|date('Y') }}, {{ data.endAt|date('m') - 1 }}, {{ data.endAt|date('d') }}, {{ data.endAt|date('H') }}, {{ data.endAt|date('i') }}),{% endif %}
+                    privacy: {% if data.type.privacy %}true{% else %}false{% endif %},
+                    editable: {% if data.type.editable %}true{% else %}false{% endif %},
+                    allDay: {% if data.allDay %}true{% else %}false{% endif %},
+                    backgroundColor: '#{{data.type.color}}'
+        {% if not loop.last %}
+                  },{
+        {% endif %}
+    {% endfor %}
+                  }];
+{% endblock %}
+
+{% block ready_js %}
+Form.init();
+{% endblock %}
+
+{% block inline_css %}
+    fc-header-title h2 {
+        font-size: 1em;
+    } 
+    a i.fa {
+        color: #eee;
+    } 
+{% endblock %}
+
+{% block css %}
+{% stylesheets 
+    '@MetronicAdminBundle/Resources/public/plugins/fullcalendar/fullcalendar/fullcalendar.css'
+    '@JFUtilityBundle/Resources/public/css/utility.css'
+%}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-envelope"></i>Invia un messaggio ai tuoi contatti</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="expand"></a>
+                    </div>
+                </div>
+                <div class="portlet-body display-hide">
+                    {#
+                    {% form_theme form 'MetronicAdminBundle::form/empty.html.twig' %}
+                    {{ form_start(form) }}
+                    {{ form_widget(form.subject) }}
+                    {{ form_widget(form.body) }}
+                    {{ form_rest(form) }}
+                    <div id="spinner" class="no-display" style="text-align: center;">
+                        <img src="{{ asset('/bundles/metronicadmin/img/ajax-loading.gif') }}" alt="" class="loading">
+                    </div>
+                    {{ form_end(form) }}
+                    #}
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-user"></i>Clienti</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Cognome</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Data nascita</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entity in clienti %}
+                                    <tr>
+                                        <td>{{ entity.nome }}</td>
+                                        <td>{{ entity.cognome }}</td>
+                                        <td>{{ entity.email }}</td>
+                                        <td>{{ entity.telefono }}</td>
+                                        <td>{% if entity.dataNascita %}{{ entity.dataNascita|date('d-m-Y') }}{% endif %}</td>
+                                        <td><a href="{{ path('calendario_cliente', {'id': entity.id}) }}">Scheda</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Indirizzo</th>
+                                        <td colspan="2">
+                                            {{ entity.indirizzo }} ({{ entity.citta }})
+                                        </td>
+                                        <th>Note</th>
+                                        <td colspan="2">
+                                            {{ entity.note }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-user"></i>Proprietari</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Cognome</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Data nascita</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entity in proprietari %}
+                                    <tr>
+                                        <td>{{ entity.nome }}</td>
+                                        <td>{{ entity.cognome }}</td>
+                                        <td>{{ entity.email }}</td>
+                                        <td>{{ entity.telefono }}</td>
+                                        <td>{% if entity.dataNascita %}{{ entity.dataNascita|date('d-m-Y') }}{% endif %}</td>
+                                        <td><a href="{{ path('calendario_proprietario', {'id': entity.id}) }}">Scheda</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Indirizzo</th>
+                                        <td colspan="2">
+                                            {{ entity.indirizzo }} ({{ entity.citta }})
+                                        </td>
+                                        <th>Note</th>
+                                        <td colspan="2">
+                                            {{ entity.note }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+        <div class="col-md-5">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-search"></i>Calendario Appuntamenti</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+
+{% endblock %}

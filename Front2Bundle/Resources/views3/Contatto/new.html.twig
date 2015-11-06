@@ -1,0 +1,58 @@
+{% set page_title = 'Contatto' %}
+{% set page_subtitle = '' %}
+{% extends '::base.html.twig' %}
+{% form_theme form 'MetronicAdminBundle::form/empty.html.twig' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box yellow">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-money"></i>Contatto</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-condensed table-hover">
+                        <thead>
+                            <tr>
+                            </tr>
+                        <tbody>
+                    {#{% for entity in entities %}#} 
+                            <tr>
+                            </tr>
+                    {#{% endfor %}#}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+    <div class="col-md-8">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box red">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-money"></i>Nuovo Contatto</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                {{ form_start(form) }}
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<button class="btn yellow btn-xs" onclick="window.location='{{ path('gestione-contatti') }}';">Torna indietro</button></a>
+<a href="{{ path('gestione-contatti') }}">
+    <span class="label label-inverse">Torna indietro</span>
+</a>
+
+{% endblock %}

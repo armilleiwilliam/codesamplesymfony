@@ -1,0 +1,163 @@
+{% set page_title = 'Contratto' %}
+{% set page_subtitle = '' %}
+{% extends '::base.html.twig' %}
+{% form_theme form 'MetronicAdminBundle::form/base.html.twig' %}
+
+{% block js %}
+    <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+    {% javascripts  
+    '@MetronicAdminBundle/Resources/public/plugins/gmaps/gmaps.js'
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9-custom.min.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/flot/jquery.flot.js'
+    '@MetronicAdminBundle/Resources/public/plugins/flot/jquery.flot.resize.js'
+    '@CasaCoreBundle/Resources/public/js/contratto/edit.js'
+    %}  
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}      
+{% endblock js %}
+
+{% block inline_js %}
+    var lat = {{entity.lat}};
+    var lon = {{entity.lon}};
+    var affitto = [
+        []
+    {% for prezzo in contratto.prezzi %}
+        {% if prezzo.prezzoAffitto %}
+        ,[{{ prezzo.dataPrezzo.timestamp }}, {{ prezzo.prezzoAffitto }}]
+        {% endif %}
+    {% endfor %}
+    ];
+    var vendita = [
+        []
+    {% for prezzo in contratto.prezzi %}
+        {% if prezzo.prezzoVendita %}
+        ,[{{ prezzo.dataPrezzo.timestamp }}, {{ prezzo.prezzoVendita / 1000 }}]
+        {% endif %}
+    {% endfor %}
+    ];
+{% endblock inline_js %}
+
+{% block ready_js %}
+    Form.init();
+{% endblock ready_js %}
+
+{% block content %}
+    <div class="row">
+        {% include 'CasaCoreBundle:Scheda:commons/riepilogo.html.twig' %}
+        <div class="col-md-8">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-file-o"></i>Aggiorna Contratto</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {{ form_start(form) }}
+                    <div class="form-group ">
+                        <div class="input-icon row">
+                            <div class="col-md-8">
+                                <label>Proprietario</label>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Data firma</label>
+                            </div>
+                        </div>
+                        <div class="input-icon row">
+                            <div class="col-md-8 bold">
+                                {{ contratto.proprietario }}
+                            </div>
+                            <div class="col-md-4 bold">
+                                {{ contratto.dataFirma|date('d-m-Y') }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="input-icon row">
+                            <div class="col-md-4">
+                                {{ form_widget(form.esclusivita) }}
+                                {{ form_errors(form.esclusivita) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_widget(form.pullicazioneFoto) }}
+                                {{ form_errors(form.pullicazioneFoto) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_widget(form.collaborazioni) }}
+                                {{ form_errors(form.collaborazioni) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.prezzi, null, {'label_attr': {'class': 'bold', 'style': 'font-size: 1.5em;'} }) }}
+                        <div class="input-icon row margin-top-10">
+                            <div class="col-md-3">
+                                {{ form_widget(form.prezzi[0].vendita) }}
+                                {{ form_errors(form.prezzi[0].vendita) }}
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_label(form.prezzi[0].prezzoVendita, null, {'label_attr': {'class': 'col-md-3 control-label'} }) }}
+                                <div class="col-md-9">
+                                    {{ form_widget(form.prezzi[0].prezzoVendita) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon row margin-top-10">
+                            <div class="col-md-3">
+                                {{ form_widget(form.prezzi[0].affitto) }}
+                                {{ form_errors(form.prezzi[0].affitto) }}
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_label(form.prezzi[0].prezzoAffitto, null, {'label_attr': {'class': 'col-md-3 control-label'} }) }}
+                                <div class="col-md-9">
+                                    {{ form_widget(form.prezzi[0].prezzoAffitto) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon row margin-top-10">
+                            <div class="col-md-12">
+                                {{ form_widget(form.prezzi[0].trattabili) }}
+                                {{ form_errors(form.prezzi[0].trattabili) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_widget(form.button) }}
+                    <div class="no-display-i">
+                        {{ form_rest(form) }}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet solid bordered light-grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-bar-chart-o"></i>Variazioni prezzo</div>
+                    <div class="tools">
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div id="site_statistics_loading">
+                        <img src="{{ asset('bundles/metronicadmin/img/loading.gif')  }}" alt="loading"/>
+                    </div>
+                    <div id="site_statistics_content" class="display-none">
+                        <div id="site_statistics" class="chart"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <button class="btn yellow btn-xs" onclick="window.location = '{{ path('scheda') }}';">Torna indietro</button></a>
+{% endblock %}

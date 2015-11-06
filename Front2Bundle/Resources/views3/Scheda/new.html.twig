@@ -1,0 +1,62 @@
+{% set page_title = 'Scheda Immobile' %}
+{% set page_subtitle = 'Step 1' %}
+{% extends '::base.html.twig' %}
+{% form_theme form 'MetronicAdminBundle::form/empty.html.twig' %}
+
+{% block js %}
+<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+{% javascripts  
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9-custom.min.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/gmaps/gmaps.js'
+    '@CasaCoreBundle/Resources/public/js/scheda/new.js'
+%}  
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}      
+{% endblock js %}
+
+{% block ready_js %}
+    Form.init();
+{% endblock ready_js %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-building"></i>Nuova Scheda</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                {{ form_start(form) }}
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+    <div class="col-md-4">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-map-marker"></i>Mappa</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="gmap" class="gmaps">
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<button class="btn yellow btn-xs" onclick="window.location='{{ path('scheda') }}';">Torna indietro</button></a>
+
+{% endblock %}

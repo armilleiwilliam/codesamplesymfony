@@ -1,0 +1,198 @@
+{% set sliderTwig = 'CasaFront2Bundle::mdr.html.twig' %}
+{% set sliderTwigParam = {"set_home": true } %}
+{% extends '::home.html.twig' %}
+{% set home = true %}
+        {% block css3 %}
+{% endblock  %}
+{% block content %}
+ <!-- BEGIN SLIDER -->
+ {% include 'CasaFront2Bundle:Default:slider.html.twig' %}
+        
+    <!-- END SLIDER -->
+
+    <div class="main" style="background:#f9f9f9;">
+        <div class="container"><i class="fa-map-maker"></i>
+ 
+        <!-- BEGIN SALE PRODUCT & NEW ARRIVALS -->
+        <div class="row margin-bottom-40">
+          <!-- BEGIN SALE PRODUCT -->
+          <div class="col-md-12 sale-product">
+            <h2 class="well">Immobili in evidenza</h2>
+            <div class="owl-carousel owl-carousel5">
+
+                 {% for vai in vendite %}
+{% for vai2 in vai %}
+ 
+    <div>
+                <div class="product-item">
+                  <div class="pi-img-wrapper">
+                      {% if vai2.foto != "uploads/gallery/thumbnail/"  %}
+                    <img src="{{ asset(vai2.foto) }}" class="img-responsive" alt="Berry Lace Dress">
+                                        <div>
+                      <a href="{{ asset(vai2.foto) }}" class="btn btn-default fancybox-button">Zoom</a>
+                      <a href="visualizza-annuncio/{{ vai2.id }}/{{ vai2.cate }}/id" class="btn btn-default fancybox-fast-view">View</a>
+                    </div>
+                    {% else %}
+                         <img src="{{ asset('bundles/casafront2/img/immagine-non-disp-lt.jpg') }}" class="img-responsive" alt="Berry Lace Dress">
+                        {% endif %} 
+
+                  </div>
+                      <h3><a href="visualizza-annuncio/{{ vai2.id }}/{{ vai2.cate }}/id">{{ vai2.title|lower }}</a></h3>
+                  <div class="pi-price"><div style="width:200px;height:20px;">€{% set prezzo = vai2.prezzo|replace({".":","}) %}{{prezzo}}</div></div>
+                  <div class="col-md-12">
+                 {% if is_granted('ROLE_ADMIN') %}
+                     <a href="scheda/{{ vai2.id_scheda }}/edit" target="_blank">Modifica Contenuti</a>
+                     <a href="scheda/{{ vai2.id_scheda }}/fotografie" target="_blank">Modifica Foto</a>
+                 {% endif %}</div>
+                </div></div>
+  
+      
+  {% endfor %}
+     {% endfor %}
+           
+                      
+                      
+              
+          <!-- END SALE PRODUCT -->
+        </div>
+        <!-- END SALE PRODUCT & NEW ARRIVALS -->
+
+        <!-- BEGIN SIDEBAR & CONTENT -->
+        <div class="row margin-bottom-40 ">
+          <!-- BEGIN SIDEBAR -->
+         
+          <!-- END SIDEBAR -->
+             <!-- BEGIN CONTENT -->
+
+                      <div class="col-md-12 sale-product" style="margin:20px 0;">
+            <h2 class="well">Le nostre categorie di immobili</h2>
+            <div class="owl-carousel owl-carousel5">
+                 <div>
+                <div class="product-item">
+                  <div class="pi-img-wrapper">
+                   
+                    <img src="{{ asset('bundles/metronicfrontend/img/case-categorie/residenziale2.jpg') }}" class="img-responsive" alt="immobile residenziale">
+               
+                    <div> 
+                      <a href="visualizza-annunci/1" class="btn btn-default">Residenziale</a>
+                    </div>
+                  </div>
+                    <br/>
+                      <h4><a href="visualizza-annunci/1">Residenziale</a></h4>
+                      <h5>Appartamento, villetta, casa di campagna, terreno agricolo</h5>
+                      
+            
+                </div></div>
+                    
+                                     <div>
+                <div class="product-item">
+                  <div class="pi-img-wrapper">
+                   
+                    <img src="{{ asset('bundles/metronicfrontend/img/case-categorie/commerciale2.jpg') }}" class="img-responsive" alt="immobile residenziale">
+               
+                    <div> 
+                      <a href="visualizza-annunci/2" class="btn btn-default">Commerciale</a>
+                    </div>
+                  </div>
+                    <br/>
+                      <h4><a href="visualizza-annunci/2">Commerciale</a></h4>
+                      
+            
+                </div></div>
+                    
+                                     <div>
+                <div class="product-item">
+                  <div class="pi-img-wrapper">
+                   
+                    <img src="{{ asset('bundles/metronicfrontend/img/case-categorie/lusso2.jpg') }}" class="img-responsive" alt="immobile residenziale">
+               
+                    <div> 
+                      <a href="visualizza-annunci/3" class="btn btn-default">Lusso</a>
+                    </div>
+                  </div>
+                    <br/>
+                      <h4><a href="visualizza-annunci/3">Lusso</a></h4>
+                      
+            
+                </div></div>
+                    
+                                     <div>
+                <div class="product-item">
+                  <div class="pi-img-wrapper">
+                   
+                    <img src="{{ asset('bundles/metronicfrontend/img/case-categorie/agricolo2.jpg') }}" class="img-responsive" alt="immobile residenziale">
+               
+                    <div> 
+                      <a href="visualizza-annunci/4" class="btn btn-default">Agricolo</a>
+                    </div>
+                  </div>
+                    <br/>
+                      <h4><a href="visualizza-annunci/4">Agricolo</a></h4>
+                      
+            
+                </div></div>
+               
+       
+             
+          </div>
+          <!-- END CONTENT -->
+
+        </div>
+     
+      </div>
+                    <!-- ASTE -->
+                       <div class="row margin-bottom-40 ">
+
+                  {% for vai in aste %}
+                      {% if vai|length > 0 %}
+           <div class="col-md-12 sale-product" style="margin:20px 0;">
+            <h2 class="well">Aste immobiliari</h2>
+            <div class="owl-carousel owl-carousel5">
+{% for vai2 in vai %}
+    <div>
+                <div class="product-item">
+                  <div class="pi-img-wrapper">
+                      {% if vai2.foto != "uploads/gallery/thumbnail/"  %}
+                    <img src="{{ asset(vai2.foto) }}" class="img-responsive" alt="Berry Lace Dress">
+                                        <div>
+                      <a href="{{ asset(vai2.foto) }}" class="btn btn-default fancybox-button">Zoom</a>
+                      <a href="visualizza-annuncio/{{ vai2.id }}/{{ vai2.cate }}/id" class="btn btn-default fancybox-fast-view">View</a>
+                    </div>
+                    {% else %}
+                         <img src="{{ asset('bundles/casafront2/img/immagine-non-disp-lt.jpg') }}" class="img-responsive" alt="Berry Lace Dress">
+                        {% endif %} 
+
+                  </div>
+                      <h3><a href="visualizza-annuncio/{{ vai2.id }}/{{ vai2.cate }}/id">{{ vai2.title|lower }}</a></h3>
+                  <div class="pi-price"><div style="width:200px;height:20px;">€{% set prezzo = vai2.prezzo|replace({".":","}) %}{{prezzo}}</div></div>
+                  <div class="col-md-12">
+                 {% if is_granted('ROLE_ADMIN') %}
+                     <a href="scheda/{{ vai2.id_scheda }}/edit" target="_blank">Modifica Contenuti</a>
+                     <a href="scheda/{{ vai2.id_scheda }}/fotografie" target="_blank">Modifica Foto</a>
+                 {% endif %}</div>
+                </div></div>
+  {% endfor %}
+             </div>
+      </div>
+             {% endif %}
+     {% endfor %}
+ 
+</div>
+        
+                <!-- END ASTE -->
+    </div>
+        </div>
+
+
+    </div>
+      </div>
+{% endblock content %}
+{% block inline_js %}
+
+        
+        jQuery(document).ready(function() {  
+            Layout.initOWL();
+        });
+
+
+{% endblock %}

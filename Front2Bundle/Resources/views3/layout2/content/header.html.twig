@@ -1,0 +1,14 @@
+<!-- BEGIN PAGE HEADER-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->			
+        <h3 class="page-title">
+            {% if page_title is defined %}{{ page_title|raw }}
+                {% if page_subtitle is defined %}<small>{{ page_subtitle|raw }}</small>{% endif %}
+            {% else %}Missing title <small>define "page_title" before your <span>{</span>% extends %<span>}</span> tag</small>{% endif %}
+        </h3>
+        {{ knp_menu_render('header', {'template': 'MetronicFrontendBundle::layout/content/header/breadcrumb.html.twig'}) }}
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+<!-- END PAGE HEADER-->

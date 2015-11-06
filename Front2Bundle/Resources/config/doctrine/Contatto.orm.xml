@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity repository-class="Casa\Front2Bundle\Entity\ContattoRepository" name="Casa\Front2Bundle\Entity\Contatto" table="contatti">
+        <id name="id" type="string" column="id">
+            <generator strategy="UUID"/>
+        </id>
+        <field name="nome" type="string" column="nome" length="255"/>
+        <field name="cognome" type="string" column="cognome" length="255"/>
+        <field name="email" type="string" column="email" length="255" nullable="true"/>
+        <field name="telefono" type="string" column="telefono" length="255"/>
+        <field name="indirizzo" type="string" column="indirizzo" length="255" nullable="true"/>
+        <field name="citta" type="string" column="citta" length="255" nullable="true"/>
+        <field name="dataNascita" type="date" column="data_nascita" nullable="true"/>
+        <field name="dataInserimento" type="date" column="data_inserimento" nullable="true"/>
+        <field name="cliente" type="boolean" column="cliente" nullable="true"/>
+        <field name="proprietario" type="boolean" column="proprietario" nullable="true"/>
+        <field name="giardino" type="boolean" column="giardino" nullable="true"/>
+        <field name="garage" type="boolean" column="garage" nullable="true"/>
+        <field name="balconi" type="boolean" column="balconi" nullable="true"/>
+        <field name="autonomo" type="boolean" column="autonomo" nullable="true"/>
+        <field name="note" type="text" column="note" nullable="true"/>
+        <field name="locali" type="integer" column="locali" />       
+        <many-to-one field="tipologia" target-entity="Casa\Front2Bundle\Entity\Tipologia" inversed-by="id" >
+            <join-column name="tipologia_id" refernced-column-id="id" nullable="true" />
+        </many-to-one>
+        <one-to-many field="contratti" target-entity="Casa\Front2Bundle\Entity\Contratto" mapped-by="proprietario" cascade="remove" orphan-removal="true" />
+    </entity>
+</doctrine-mapping>

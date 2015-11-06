@@ -1,0 +1,116 @@
+{% set page_title = 'Documenti contratto' %}
+{% set page_subtitle = '' %}
+{% form_theme form 'MetronicAdminBundle::form/base.html.twig' %}
+{% extends '::baseJs.html.twig' %}
+
+{% block inline_js %}
+    var lat = {{entity.lat}};
+    var lon = {{entity.lon}};
+{% endblock inline_js %}
+
+{% block css %}
+{% stylesheets
+    '@MetronicAdminBundle/Resources/public/plugins/bootstrap-switch/static/stylesheets/bootstrap-switch-metro.css'
+%}
+<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% endblock css %}
+
+{% block js %}
+    <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+    {% javascripts  
+    '@JFUtilityBundle/Resources/public/js/commons/sugar-1.3.9-custom.min.js'
+    '@JFUtilityBundle/Resources/public/js/check_sanitize_regexp.js'
+    '@MetronicAdminBundle/Resources/public/plugins/bootstrap-switch/static/js/bootstrap-switch.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/jquery.validate.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/jquery-validation/src/additional-methods.min.js'
+    '@MetronicAdminBundle/Resources/public/plugins/gmaps/gmaps.js'
+    '@CasaCoreBundle/Resources/public/js/scheda/documenti.js'
+    %}  
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}      
+{% endblock js %}
+
+{% block ready_js %}
+    Form.init();
+{% endblock ready_js %}
+
+{% block content %}
+    <div class="row">
+        {% include 'CasaCoreBundle:Scheda:commons/riepilogo.html.twig' %}
+        <div class="col-md-8">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption"><i class="fa fa-map-marker"></i>Documenti</div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                        <ul class="nav nav-tabs">
+                            {% for gruppo in gruppi %}
+                                <li {% if loop.first %}class="active"{% endif %}><a href="#tabs-{{ gruppo.id }}" data-toggle="tab">{{ gruppo.gruppo }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <div class="tab-content">
+                            {% for gruppo in gruppi %}
+                                <div class="tab-pane fade {% if loop.first %}active in{% endif %}" id="tabs-{{ gruppo.id }}">
+                                    <h3>{{gruppo.gruppo}}</h3>
+                                    <table class="table">
+                                        <tr>
+                                            <th>Documento</th>
+                                            <th>Reperibile</th>
+                                            <th>Da consegnare</th>
+                                            <th>Operazioni</th>
+                                        </tr>
+                                        {% for tipo in gruppo.documentiTipo %}
+                                            <tr>
+                                                <td>{{ tipo.tipo }}</td>
+                                                <td>{% if tipo.reperibilita %}SI{% else %}NO{% endif %}</td>
+                                                <td>{% if tipo.consegnare %}SI{% else %}NO{% endif %}</td>
+                                                <td id="op-{{ tipo.id }}">
+                                                    {% if contratto.doc(tipo).id is defined %}
+                                                        <a class="btn btn-small yellow add-doc" data-toggle="modal" href="#nuovoDocumento" tipo="{{ tipo.id }}" contratto="{{ contratto.id }}">Sostituisci</a>
+                                                        <a class="btn btn-small blue add-doc" href="{{ asset(contratto.doc(tipo).file) }}" target="_blank">Scarica</a>
+                                                    {% else %}
+                                                        <a class="btn btn-small green add-doc" data-toggle="modal" href="#nuovoDocumento" tipo="{{ tipo.id }}" contratto="{{ contratto.id }}">Carica</a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            {% endfor %}
+                        </div>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+                        
+    <div class="modal fade" id="nuovoDocumento" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{ form_start(form) }}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Carica documento</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_rest(form) }}
+                </div>
+                {{ form_end(form) }}
+                <div class="modal-footer">
+                    <button type="button" class="btn default" id="proprietario-chiudi" data-dismiss="modal">Chiudi</button>
+                    <button type="button" id="addDocumento" class="btn blue">Aggiungi</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+    <button class="btn yellow btn-xs" onclick="window.location = '{{ path('scheda') }}';">Torna indietro</button></a>
+{% endblock content %}

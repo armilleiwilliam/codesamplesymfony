@@ -1,0 +1,19 @@
+<div class="row breadcrumbs margin-bottom-40">
+    <div class="container">
+        <div class="col-md-4 col-sm-4">
+            <h1>Annunci {% if categoria %}{{ categoria.categoria }}{% endif %}</h1>
+        </div>
+        <div class="col-md-1 col-sm-1">
+            <button class="btn btn-toggle" onClick="$('.form-home').slideToggle(function(){$('.btn-toggle').slideToggle();});">Cerca</button>
+        </div>
+        <div class="col-md-7 col-sm-7">
+            <ul class="pull-right breadcrumb">
+                <li><a href="{{ path('home') }}">Home</a></li>
+                <li><a href="#">Annunci</a></li>
+                {% if categoria %}
+                <li class="active">{{ categoria.categoria }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>

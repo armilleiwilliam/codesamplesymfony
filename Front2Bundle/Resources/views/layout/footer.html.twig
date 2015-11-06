@@ -1,0 +1,89 @@
+
+<!-- BEGIN FOOTER -->
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 space-mobile" style="display:none;">
+                <!-- BEGIN ABOUT -->                    
+                <h2>Chi siamo</h2>
+                <p class="margin-bottom-30">Vivamus imperdiet felis consectetur onec eget orci adipiscing nunc. Pellentesque fermentum, ante ac interdum ullamcorper.</p>
+                <div class="clearfix"></div>                    
+                <!-- END ABOUT -->          
+
+                <h2 style="display:none;">Il nostro staff </h2>
+                <!-- BEGIN BLOG PHOTOS STREAM -->
+                <div class="blog-photo-stream margin-bottom-30" style="display:none;">
+                    <ul class="list-unstyled">
+                        <li><a href="#"><img src="{{ asset('bundles/metronicfrontend/img/people/img5-small.jpg') }}" alt=""></a></li>
+                        <li><a href="#"><img src="{{ asset('bundles/metronicfrontend/img/works/img1.jpg') }}" alt=""></a></li>
+                        <li><a href="#"><img src="{{ asset('bundles/metronicfrontend/img/people/img4-large.jpg') }}" alt=""></a></li>
+                        <li><a href="#"><img src="{{ asset('bundles/metronicfrontend/img/works/img6.jpg') }}" alt=""></a></li>
+                        <li><a href="#"><img src="{{ asset('bundles/metronicfrontend/img/pics/img1-large.jpg') }}" alt=""></a></li>
+                        <li><a href="#"><img src="{{ asset('bundles/metronicfrontend/img/pics/img2-large.jpg') }}" alt=""></a></li>
+                        <li><a href="#"><img src="{{ asset('bundles/metronicfrontend/img/works/img3.jpg') }}" alt=""></a></li>
+                        <li><a href="#"><img src="{{ asset('bundles/metronicfrontend/img/people/img2-large.jpg') }}" alt=""></a></li>
+                        <li><a href="#"><img src="{{ asset('bundles/metronicfrontend/img/works/img2.jpg') }}" alt=""></a></li>
+                        <li><a href="#"><img src="{{ asset('bundles/metronicfrontend/img/works/img5.jpg') }}" alt=""></a></li>
+                    </ul>                    
+                </div>
+                <!-- END BLOG PHOTOS STREAM -->                              
+            </div>
+            <div class="col-md-12 col-sm-12 space-mobile" style="text-align:center;">
+                <!-- BEGIN CONTACTS -->                                    
+                <h2>Contatti</h2>
+                <address class="margin-bottom-40">
+                   Agenzia immobiliare <br />
+                    Via Piemonte, 85 <br />
+                    Firenze, 98100 <br />
+                    T: 055/8987289 <br />
+                    Email: <a href="mailto:info@keenthemes.com">info@agenziaimmobiliare.com</a>                        
+                </address>
+                <!-- END CONTACTS -->                                    
+
+                <!-- BEGIN SUBSCRIBE -->                                    
+
+                <!-- END SUBSCRIBE -->                                    
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- END FOOTER -->
+    <!-- Load javascripts at bottom, this will reduce page load time -->
+    <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
+    <!--[if lt IE 9]>
+    <script src="../../assets/global/plugins/respond.min.js"></script>  
+    <![endif]-->
+    {% block js2 %}
+{% javascripts  
+    '@CasaFront2Bundle/Resources/public/global/plugins/jquery-1.11.0.min.js'
+    '@CasaFront2Bundle/Resources/public/global/plugins/jquery-migrate-1.2.1.min.js'
+    '@CasaFront2Bundle/Resources/public/global/plugins/bootstrap/js/bootstrap.min.js'
+    '@CasaFront2Bundle/Resources/public/layout/scripts/back-to-top.js'
+    '@CasaFront2Bundle/Resources/public/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js'
+    '@CasaFront2Bundle/Resources/public/global/plugins/fancybox/source/jquery.fancybox.pack.js'
+    '@CasaFront2Bundle/Resources/public/global/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js'
+    '@CasaFront2Bundle/Resources/public/global/plugins/zoom/jquery.zoom.min.js'
+    '@CasaFront2Bundle/Resources/public/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js'
+    '@CasaFront2Bundle/Resources/public/global/plugins/slider-layer-slider/js/greensock.js'
+    '@CasaFront2Bundle/Resources/public/global/plugins/slider-layer-slider/js/layerslider.transitions.js'
+    '@CasaFront2Bundle/Resources/public/global/plugins/slider-layer-slider/js/layerslider.kreaturamedia.jquery.js'
+    '@CasaFront2Bundle/Resources/public/pages/scripts/layerslider-init.js'
+    '@CasaFront2Bundle/Resources/public/layout/scripts/layout.js'
+%}
+
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %} 
+{% endblock %}
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+           Layout.init();    
+           //Layout.initOWL();
+            LayersliderInit.initLayerSlider();
+            //Layout.initImageZoom();
+            //Layout.initTouchspin();
+            //Layout.initTwitter();
+        });
+    </script>
+    <!-- END PAGE LEVEL JAVASCRIPTS -->

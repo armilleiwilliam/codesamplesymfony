@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+<div class="page-header">
+    <div class="icon">
+        <span class="ico-cog"></span>
+    </div>
+    <h1>Contatto <small>Dettagli</small></h1>
+</div>
+<div class="row-fluid">
+    <div class="span6">
+        <div class="block">
+            <table class="table">
+                <tbody>                    <tr>
+                        <th>Nome</th>
+                        <td>{{ entity.nome }}</td>
+                    </tr>                    <tr>
+                        <th>Cognome</th>
+                        <td>{{ entity.cognome }}</td>
+                    </tr>                    <tr>
+                        <th>Email</th>
+                        <td>{{ entity.email }}</td>
+                    </tr>                    <tr>
+                        <th>Telefono</th>
+                        <td>{{ entity.telefono }}</td>
+                    </tr>                    <tr>
+                        <th>Indirizzo</th>
+                        <td>{{ entity.indirizzo }}</td>
+                    </tr>                    <tr>
+                        <th>Citta</th>
+                        <td>{{ entity.citta }}</td>
+                    </tr>                    <tr>
+                        <th>Datanascita</th>
+                        <td>{{ entity.dataNascita|date('Y-m-d H:i:s') }}</td>
+                    </tr>                    <tr>
+                        <th>Cliente</th>
+                        <td>{{ entity.cliente }}</td>
+                    </tr>                    <tr>
+                        <th>Proprietario</th>
+                        <td>{{ entity.proprietario }}</td>
+                    </tr>                    <tr>
+                        <th>Note</th>
+                        <td>{{ entity.note }}</td>
+                    </tr>                    <tr>
+                        <th>Id</th>
+                        <td>{{ entity.id }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<button class="btn yellow btn-xs" onclick="window.location='{{ path('gestione-contatti') }}';">Torna indietro</button></a>
+<a href="{{ path('gestione-contatti') }}">
+    <span class="label label-inverse">Torna indietro</span>
+</a>
+
+            <button class="btn yellow btn-xs" onclick="window.location='{{ path('gestione-contatti_edit', { 'id': entity.id }) }}';">Modifica</button></a>{% endblock %}

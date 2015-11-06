@@ -1,0 +1,5 @@
+services:
+    sebi.twig_extension:
+        class: Casa\Front2Bundle\Services\Extension\TwigExtension
+        tags:
+            - { name: twig.extension}

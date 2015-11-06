@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity repository-class="Casa\Front2Bundle\Entity\SchedaRepository" name="Casa\Front2Bundle\Entity\Scheda" table="scheda_immobile">
+        <id name="id" type="string" column="id">
+            <generator strategy="UUID"/>
+        </id>
+        <many-to-one field="tipologia" target-entity="Casa\Front2Bundle\Entity\Tipologia" cascade="persist">
+            <join-column name="tipologia_id" referenced-column-name="id" />
+        </many-to-one>
+        <field name="indirizzo" type="string" column="indirizzo" length="255"/>
+        <field name="localita" type="string" column="localita" length="255"/>
+        <field name="locali" type="integer" column="locali" />
+        <field name="cap" type="string" column="cap" length="5"/>
+        <field name="descrizione" type="text" column="descrizione" nullable="true" />
+        <field name="difformita" type="text" column="difformita" nullable="true" />
+        <field name="lat" type="decimal" column="lat" precision="18" scale="15" />
+        <field name="lon" type="decimal" column="lon" precision="18" scale="15" />
+        <field name="evidenza" type="boolean" column="evidenza" nullable="true"/>
+        <field name="asta" type="boolean" column="asta" nullable="true"/>
+        <field name="pubblicazione" type="boolean" column="pubblicazione" nullable="true"/>
+        <field name="status" type="string" column="status" length="8" nullable="true"/>
+        <one-to-many field="contratti" target-entity="Casa\Front2Bundle\Entity\Contratto" mapped-by="scheda" cascade="remove">
+            <order-by>
+                <order-by-field name="dataFirma" direction="DESC" />
+            </order-by>
+        </one-to-many>
+        <one-to-many field="caratteristiche" target-entity="Casa\Front2Bundle\Entity\SchedaCaratteristica" mapped-by="scheda" />
+        <one-to-many field="prezzi" target-entity="Casa\Front2Bundle\Entity\Prezzo" mapped-by="scheda" />
+        <many-to-many field="agenzie" target-entity="Casa\UserBundle\Entity\Agenzia" inversed-by="schede">
+            <join-table name="scheda_agenzie">
+                <join-columns>
+                    <join-column name="scheda_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="agenzia_id" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+    </entity>
+</doctrine-mapping>

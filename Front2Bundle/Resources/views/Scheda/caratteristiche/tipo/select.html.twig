@@ -1,0 +1,6 @@
+<select name="caratteristica[{{ caratteristica.id }}]" id="{{ caratteristica.idTagPattern }}">
+    <option value=""></option>
+    {% for param in caratteristica.params %}
+        <option value="{{ param }}" {% if param == entity.caratteristica(caratteristica) %}selected="selected"{% endif %}>{{ param }}</option>
+    {% endfor %}
+</select>

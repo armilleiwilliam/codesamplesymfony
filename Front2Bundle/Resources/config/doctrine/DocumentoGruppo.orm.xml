@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity repository-class="Casa\Front2Bundle\Entity\DocumentoGruppoRepository" name="Casa\Front2Bundle\Entity\DocumentoGruppo" table="scheda_documenti_gruppi">
+        <id name="id" type="string" column="id">
+            <generator strategy="UUID"/>
+        </id>
+        <field name="gruppo" type="string" column="gruppo" length="255"/>
+        <one-to-many field="documentiTipo" target-entity="Casa\Front2Bundle\Entity\DocumentoTipo" mapped-by="gruppo" />
+    </entity>
+</doctrine-mapping>

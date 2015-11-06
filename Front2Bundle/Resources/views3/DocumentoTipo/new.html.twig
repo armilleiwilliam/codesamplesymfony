@@ -1,0 +1,28 @@
+{% set page_title = 'DocumentoTipo' %}
+{% set page_subtitle = '' %}
+{% extends '::base.html.twig' %}
+{% form_theme form 'MetronicAdminBundle::form/empty.html.twig' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box grey">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-money"></i>Nuovo Tipo Documento</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                {{ form_start(form) }}
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+        <button class="btn yellow btn-xs" onclick="window.location='{{ path('gestione_tipo-documenti') }}';">Torna indietro</button></a>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity repository-class="Casa\Front2Bundle\Entity\SchedaCaratteristicaRepository" name="Casa\Front2Bundle\Entity\SchedaCaratteristica" table="scheda_immobile_caratteristiche">
+        <id name="gruppo" association-key="true" />
+        <id name="scheda" association-key="true" />
+        <many-to-one field="gruppo" target-entity="Casa\Front2Bundle\Entity\Caratteristica">
+            <join-column name="gruppo_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="scheda" target-entity="Casa\Front2Bundle\Entity\Scheda" inversed-by="caratteristiche">
+            <join-column name="scheda_id" referenced-column-name="id" on-delete="cascade"/>
+        </many-to-one>
+        <field name="value" type="text" nullable="true" />
+    </entity>
+</doctrine-mapping>

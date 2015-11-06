@@ -1,0 +1,414 @@
+@charset "UTF-8";
+/* CSS Document */
+
+* {
+	margin:0;
+	padding:0;
+	font-family:Verdana, Georgia, Geneva, sans-serif;
+}
+
+body {
+	background:#FFF;
+	font-size:12px;
+}
+
+
+
+
+#contenitore {
+	max-width:1000px;
+	position:absolute;
+	
+	margin:0 auto;
+	position:relative;
+	top:0px;
+}
+#inner_contenitore{
+	overflow:hidden;
+	margin:0 auto;
+	position:relative;
+	left:-4px;
+	text-align:center;
+}
+
+#header {
+	width:auto;
+	height:290px;
+	text-align:center;
+}
+
+
+
+h3 {
+	border-bottom:2px ridge #0FF;
+	text-align:center;
+}
+article {
+	text-align:left;
+}
+
+
+#contenuto {
+	width:100%;
+	
+	
+}
+
+
+footer {
+	height:180px;
+	width:967;
+	margin:0;
+	font-size:11px;
+}
+#footer_it {
+	background:url(../image/footer_it.jpg) top center no-repeat #FFF;
+
+}
+#footer_fr {
+	background:url(../image/footer_fr.jpg) top center no-repeat #FFF;
+}
+#footer_en {
+	background:url(../image/footer_en.jpg) top center no-repeat #FFF;
+}
+#ft_copy {
+	padding-top:100px;
+}
+
+.lingue {
+	width:320px;
+	margin:0 auto;
+	position:absolute;
+	z-index:1;
+	
+	
+}
+.breadcrumb {
+	background:none;
+}
+.lingue img {
+	margin:10px 10px;
+	width:40px;
+}
+.nav-justified li a {
+	font-weight:600;
+}
+.nav li {
+	margin:0 17px;
+}
+.nav li a {
+	font-size:14px;
+	color:#009;
+}
+.nav li a:hover, .nav li a.active {
+
+	color:#006;
+	
+	
+}
+.navbar-default {
+	background-image:none;
+	background:#FFF;
+}
+.navbar-default ul.navbar-nav li a, .navbar-default ul.navbar-nav li a.active {
+	color:#006;
+	font-weight:700;
+}
+h1 {
+	font-size:30px;
+}
+#header .img_hd {
+	position:absolute;
+	z-index:0;
+}
+.header_gallery {
+	display:none;
+		margin-top:100px;
+}
+/* riduco l'immagine header dei cani che corrono sulla spiaggia quando si riduce lo schermo */
+@media (min-width: 1200px){
+	#header .img_hd {
+	margin:0 5%;
+	}
+	.lingue {
+margin:0 35%;
+	}
+
+}
+@media (max-width: 1199px){
+		.lingue {
+margin:0 auto;
+position:relative;
+top:200px;
+	}
+
+}
+@media (max-width: 900px){
+			.lingue {
+margin:0 auto;
+position:relative;
+top:180px;
+	}
+		#header{
+		height:230px;
+}
+
+}
+@media (max-width: 768px) {
+	.header-dob {
+	display:none;
+}
+.header_gallery {
+	display:inline;
+	margin-top:100px;
+	font-weight:700;
+}
+.bottom-home {
+	display:none;
+}
+}
+@media (min-width:500px) and (max-width: 700px){
+			.lingue {
+margin:0 auto;
+position:relative;
+top:150px;
+	}
+		#header{
+		height:190px;
+}
+}
+@media (min-width:300px) and (max-width: 500px){
+			.lingue {
+margin:0 auto;
+position:relative;
+top:100px;
+	}
+		#header{
+		height:160px;
+}
+}
+/********************************************/
+
+/***************    HOME   ******************/
+
+/********************************************/
+
+.img_home_top {
+	display:none;
+	width:100%;
+}
+.img_home_top img {
+	display:none;
+}
+
+/********************************************/
+
+/***************    Dobermann  ******************/
+
+/********************************************/
+.cont_dob{
+	width:90%;
+	text-align:center;
+	margin:0 auto;
+}
+.tt_dob{
+	border-bottom:inset grey 1px;
+	font-weight:700;
+	
+}
+.scroll_img, .scroll_img2 {
+
+overflow:auto;
+/*border:1px double #CCC;*/
+border:1px double #F30;
+border-radius:5px;
+-webkit-border-radius:5px;
+-moz-border-radius:5px;
+/*box-shadow: 0px 0 0px #F30;
+	-webkit-box-shadow: 0px 0 0px #F30;
+	-moz-box-shadow: 0px 0 1px #F30;*/
+/*	box-shadow: 0px 0 15px #0FF;
+	-webkit-box-shadow: 0px 0 15px #0FF;
+	-moz-box-shadow: 0px 0 15px #0FF;*/
+	overflow-y:scroll;
+	
+}
+.scroll_img img {
+	margin:10px 0;
+
+
+}
+@media (min-width: 768px) {
+  .scroll_img, .scroll_img2 {
+height:1300px;
+  }
+}
+@media (max-width: 768px) {
+  .scroll_img, .scroll_img2 {
+
+border:none;
+overflow:visible;
+  }
+}
+
+/********************************************/
+
+/***************    Scheda cane  ******************/
+
+/********************************************/
+.bord-art-1 {
+	border:1px solid #0FF;
+}
+.img_scheda {
+	border:2px inset #0FF;
+
+}
+.gal_dog {
+	width:50%;
+	float:left;
+	}
+.bord-art-1{
+	border-top:1px inset #0FF;
+	
+
+}
+.foto-cont {
+overflow:scroll;
+}
+.col-foto {
+overflow:scroll;
+height:500px;
+}
+
+.col-foto-cuc {
+	height:600px;
+	overflow:scroll;
+}
+table td.td-border {
+	border:1px solid grey;
+}
+.table2 img.line {
+	width:30px;
+}
+.table2 th {
+	text-align:center;
+}
+.h4_border {
+	border:1px solid grey;
+	padding-bottom:10px;
+	margin-top:20px;
+}
+h2.tth2 {
+	border:1px solid grey;
+	margin-top:100px;
+}
+.header-dob {
+	font-weight:700;
+	text-align:center;
+	font-size:24px;
+	border-bottom:2px groove #930;
+	margin-bottom:10px;
+}
+.table2 {
+	font-weight:800;
+}
+.table2 .table-header {
+	font-size:18px;
+	border-bottom:1px solid grey;
+}
+.table2 strong {
+	border-bottom:1px solid black;
+}
+/********************************************/
+
+/***************   ZTP  ******************/
+
+/********************************************/
+.bt-div {
+	border-bottom:2px solid grey;
+}
+thead th {
+	text-align:center;
+}
+/********************************************/
+
+/***************   accoppiamenti  ******************/
+
+/********************************************/
+.ft-bg {
+	font-size:34px;
+}
+.text_acc {
+border:1px outset #EEEEEE;
+margin-bottom:100px;
+}
+.tt_dob {
+font-size:22px;
+}
+/********************************************/
+
+/***************   cuccioli2  ******************/
+
+/********************************************/
+
+.gal_dog2 {
+	height:100px;
+	float:left;
+	margin:2%;
+	text-align:center;
+}
+.row {
+	height:20%;
+	background:url(../image/sfondo_scheda_cucciolata.jpg) repeat-y;
+	text-align:center;
+	border-bottom:1px solid #0FF; 
+}
+.bd-gal {
+	border-bottom:1px solid #0FF;
+}
+
+.let-cuc {
+	font-size:34px;
+	margin:10px;
+	padding:10px;
+}
+/********************************************/
+
+/***************   NEWS  ******************/
+
+/********************************************/
+img.ft-lt {
+	width:50%;
+}
+h3.hd_news {
+	padding-bottom:20px;
+}
+h1, h2, h3 {
+	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-family:Tahoma, Geneva, sans-serif;
+	
+}
+/********************************************/
+
+/***************  CAMPIONI, MASCHI, FEMMINE  ******************/
+
+/********************************************/
+.gal_cane2 {
+	border-bottom:2px groove #0CC;
+}
+.gal_cane2 .img-rounded {
+	border:2px outset #333;
+}
+section.cont_dob ul.nav-tabs li {
+	margin:0 auto;
+}
+.link_dt {
+	margin:0 auto;
+	width:100%;
+	text-align:center;
+	margin-top:20px;
+}
+.navbar-default ul.navbar-nav li a, ul.navbar-nav li a.active {
+	color:#006;
+	
+}

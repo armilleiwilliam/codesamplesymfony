@@ -1,6 +1,9 @@
 <?php 
 
+
 class db {
+	
+// DATABASE CONNECTION DETAILS
 public $dbconn;
 public $user;
 public $host;
@@ -20,26 +23,33 @@ function connect(){
 $this->dbconn = mysql_connect($this->host,$this->user,$this->pass) or die("Impossibile accedere al database");
 mysql_select_db($this->dbase);
 	}
-function prepare($query){
+	
+// USEFUL FUNCTIONS - prepare, numrows, disconnect, num_limit_database (for the pagination)
+
+public function prepare($query){
 $this->myquery = mysql_query($query);
 return $this->myquery;
 
 	}
-function numrows($query){
+public function numrows($query){
 return mysql_num_rows($this->myquery);
 	}
-function disconnect(){
+public function disconnect(){
 mysql_close($this->dbconn);
 	}
-function num_limit_database($page_num, $tabella = "cani"){
+public function num_limit_database($page_num, $tabella = "cani"){
 $this->risult = $this->prepare("select id from $tabella");
 return ceil($this->numrows($this->risult)/$page_num);
-
-
 }
 
-// ZTP 
-function inserisci_ztp(){
+/* ZTP - this is a section for dogs which received a special award. With the following function you can insert a new ztp
+* 
+* $titolo, $titolo_en = title in italian and english
+* $desc, $desc_en = description in italian and english
+* $cane = the id of the dog which received the award
+* if succesful $query5 returns true
+*/
+public function inserisci_ztp(){
 if(isset($_POST["titolo"])&&$_POST["titolo"]!=""){
 $titolo = ($_POST["titolo"]!="")?trim($_POST["titolo"]):"";
 $titolo_en = ($_POST["titolo_en"]!="")?trim($_POST["titolo_en"]):"";
@@ -51,7 +61,14 @@ return $query5;
 
 }
 }
-function modifica_ztp(){
+
+/** Modify ztp
+* $id_ztp - the ztp profile id
+* $titolo, $titolo_en = title in italian and english
+* $desc, $desc_en = description in italian and english
+* $cane = the dog's id which received the award
+*/
+public function modifica_ztp(){
 if(isset($_POST["titolo"])&&$_POST["titolo"]!=""){
 $id_ztp = $_GET["mod_ztp"];
 $titolo = ($_POST["titolo"]!="")?trim($_POST["titolo"]):"";
@@ -64,14 +81,34 @@ return $query5;
 
 }
 }
-function dettagli_ztp($ztp){
+
+/**
+* I select a ztp details to show in the front
+**/
+public function dettagli_ztp($ztp){
 $query = $this->prepare("select * from ztp where id=$ztp");
 if($query)
 $ris = mysql_fetch_array($query);
 return $ris;
 }
-// DOBERMANN
-function inserisci(){
+
+/** DOBERMANN
+ * Create a new dobermann profile
+ * $nome = name
+ * $padre, $madre = parents
+ * $proprietario = owner
+ * $desc_lt, $desc_lt_en = short description in italian and english
+ * $desc, $desc_en = long description in both languages
+ * $maschio = male
+ * $femmina = female
+ * $sesso = gender
+ * $cuccioli = if it has puppies or not
+ * $campione = champion of a contest
+ * $nonno(1-4), $bis(1-8) , $tris(1-16) = the pedigree, meaning the names of the relatives back to the 4° generation
+ * $video = link to the video
+ * this is an example of the front: http://www.dicasafoxdobermann.com/en/dobermann_dog_profile.php?cane=46
+ **/
+public function inserisci(){
 if(isset($_POST["name"])&&$_POST["name"]!=""){
 $nome = (!empty($_POST["name"])&&$_POST["name"]!="")?$_POST["name"]:"";
 $padre = (!empty($_POST["padre"])&&$_POST["padre"]!="")?$_POST["padre"]:"";
@@ -129,17 +166,23 @@ $query_ins = mysql_query("insert into cani values(null,\"$nome\",\"$proprietario
 return $query_ins;
 }
 }	
-function dettagli_cane($cane){
+
+// dog's details
+public function dettagli_cane($cane){
 $query = $this->prepare("select * from cani where id=$cane");
 if($query)
 $ris = mysql_fetch_array($query);
 return $ris;
 }
-function canc_foto_from_database($foto){
+
+// delete a photo from database
+public function canc_foto_from_database($foto){
 $canc_foto_from_data = $this->prepare("delete from foto_cani where immagine='$foto'");
 return mysql_error();
 }
-function modifica_cane($cane){
+
+// Modify dog profile details - go up to DOBERMANN section, line 91 of this file to know the meaning of this function's variables 
+public function modifica_cane($cane){
 if(isset($_POST["name"])&&$_POST["name"]!=""){
 $nome = trim($_POST["name"]);
 $padre = trim($_POST["padre"]);
@@ -198,8 +241,12 @@ return $this->risult;
 }
 }
 
-// ADDESTRAMENTO
-function inserisci_addestramento(){
+/** ADDESTRAMENTO - dog training
+ * $titolo, $titolo_en = title in Italian and english
+ * $desc, $desc_en = description in italian and english
+ * $query5 = it returns true if successful
+ */
+public function inserisci_addestramento(){
 if(isset($_POST["titolo"])&&$_POST["titolo"]!=""){
 $titolo = ($_POST["titolo"]!="")?trim($_POST["titolo"]):"";
 $titolo_en = ($_POST["titolo_en"]!="")?trim($_POST["titolo_en"]):"";
@@ -210,7 +257,10 @@ return $query5;
 
 }
 }
-function modifica_addestramento(){
+
+// Modify dog training profile
+// $cane = dog
+public function modifica_addestramento(){
 if(isset($_POST["titolo"])&&$_POST["titolo"]!=""){
 $id_addestramento = $_GET["mod_addestramento"];
 $titolo = ($_POST["titolo"]!="")?trim($_POST["titolo"]):"";
@@ -223,13 +273,21 @@ return $query5;
 
 }
 }
-function dettagli_addestramento($addestramento){
+
+// SELECT a training
+public function dettagli_addestramento($addestramento){
 $query = $this->prepare("select * from addestramento where id=$addestramento");
 if($query)
 $ris = mysql_fetch_array($query);
 return $ris;
 }
-function galleria_img($image_id, $tipo = "cani"){
+
+/**
+ * This function returns the list of the photos for each section ( cani : dogs, addestramento : training, cucciolata : puppies, news)
+ * $image_id = the id profile in one of the sections of photos listed above. 
+ * $tipo = the type of section 
+ **/
+public function galleria_img($image_id, $tipo = "cani"){
 if($tipo == "cani")
 $this->risult = $this->prepare("select * from foto_cani where cane=$image_id");
 if($tipo == "addestramento")
@@ -243,9 +301,15 @@ return $this->risult;
 else
 return "no";
 }
-// ACCOPPIAMENTI 
 
-function riproduttori($sesso, $genitore = ""){
+// ACCOPPIAMENTI - Matching
+/**
+ * it returns a list of options to select from
+ * $sesso = gender
+ * $genitore = parent
+ */
+
+public function riproduttori($sesso, $genitore = ""){
 $this->risult = $this->prepare("select id, nome from cani where $sesso=1 order by nome");
 while($ris = mysql_fetch_array($this->risult)){
 extract($ris);
@@ -254,7 +318,14 @@ if($genitore==$id) echo " selected ";
 echo ">$nome</option>";
 }
 }
-function inserisci_accoppiamento(){
+
+// Matching insert
+/** 
+ * $testo, $testo_en = description in both language (italian, english)
+ * $padre, $madre = parents
+ * $data = date of birth
+ **/
+public function inserisci_accoppiamento(){
 if(isset($_POST["data_birth"])&&$_POST["data_birth"]!=""){
 $testo = ($_POST["desc_lt"]!="")?trim($_POST["desc_lt"]):"";
 $testo_en = ($_POST["desc_lt_en"]!="")?trim($_POST["desc_lt_en"]):"";
@@ -279,13 +350,26 @@ return $query5;
 
 }
 }
-function dettagli_accoppiamento($accoppiamento){
+
+/**
+ * MATCHING DETAILS
+ * $ris = contains data about the matching
+ *
+ **/
+public function dettagli_accoppiamento($accoppiamento){
 $query = $this->prepare("select DATE_FORMAT(data,'%d/%c/%Y'), padre, madre, let, lista, testo_en, testo, id from accoppiamenti where id=$accoppiamento");
 if($query)
 $ris = mysql_fetch_array($query);
 return $ris;
 }
-function modifica_accoppiamento(){
+
+/**
+ * MODIFY MATCHING
+ * $testo, $testo_en = description in italian and english
+ * $madre, $padre = parents
+ * $data = date of birth
+ */
+public function modifica_accoppiamento(){
 if(isset($_POST["data_birth"])&&$_POST["data_birth"]!=""){
 $id_accoppiamento = $_GET["mod_accoppiamento"];
 $testo = ($_POST["desc_lt"]!="")?trim($_POST["desc_lt"]):"";
@@ -300,28 +384,15 @@ $query5 = mysql_query("update accoppiamenti set data='$data', testo_en='$testo_e
 return $query5;
 }
 }
-// CUCCIOLATE
-function find_nome($nome){
-$esito = $this->prepare("select nome from cani where id=$nome order by nome");
-echo mysql_error();
-$ris = mysql_fetch_array($esito);
-return $ris["nome"];
-}
-function lista_accoppiamenti($accoppiamento = 0){
-$esito = $this->prepare("select DATE_FORMAT(data,'%d/%c/%Y'), id, padre, madre from accoppiamenti order by data desc");
-while($ris = mysql_fetch_array($esito)){
-extract($ris);
-$madre = $this->find_nome($madre);
-$padre = $this->find_nome($padre);
-echo "<option value='$id'";
-if($accoppiamento==$id) echo " selected ";
-echo ">Data: ".$ris["DATE_FORMAT(data,'%d/%c/%Y')"]." - Genitori: ".$padre.", ".$madre."</option>";
-
-}
-
-}
-
-function inserisci_cucciolata(){
+/* PUPPIES/LITTERS = CUCCIOLATE
+ *
+ * $testo, $testo_en = description in italian and english
+ * $madre, $padre = parents
+ * $data = date of birth
+ * $accoppiamenti = the matching which the puppies belong to
+ * $query5 = it returns the list of the puppies
+ */
+public function inserisci_cucciolata(){
 if(isset($_POST["data_birth"])&&$_POST["data_birth"]!=""){
 $testo = ($_POST["desc_lt"]!="")?trim($_POST["desc_lt"]):"";
 $testo_en = ($_POST["desc_lt_en"]!="")?trim($_POST["desc_lt_en"]):"";
@@ -336,14 +407,25 @@ return $query5;
 
 }
 }
-function dettagli_cucciolata($cucciolata){
+
+// LITTER/PUPPIES DETAILS
+// $ris = it returns a litter details
+public function dettagli_cucciolata($cucciolata){
 $query = $this->prepare("select DATE_FORMAT(data,'%d/%c/%Y'), padre, madre, accoppiamenti, testo_en, testo, id from cucciolate where id=$cucciolata");
 echo mysql_error();
 if($query)
 $ris = mysql_fetch_array($query);
 return $ris;
 }
-function modifica_cucciolata(){
+
+/**
+ * MODIFY DETAILS
+ * $id_cucciolata = id litter
+ * $testo, $testo_en = description in italian and english
+ * $accoppiamenti = the matching which the puppies belong to
+ * $madre, $padre = parents
+ */
+public function modifica_cucciolata(){
 if(isset($_POST["data_birth"])&&$_POST["data_birth"]!=""){
 $id_cucciolata = $_GET["mod_cucciolata"];
 $testo = ($_POST["desc_lt"]!="")?trim($_POST["desc_lt"]):"";
@@ -356,8 +438,44 @@ echo mysql_error();
 return $query5;
 }
 }
-// NEWS
-function inserisci_news(){
+
+/* It returns a dobermann profile details
+ * $nome = Dobermann's id
+ *
+ */
+ 
+public function find_nome($nome){
+$esito = $this->prepare("select nome from cani where id=$nome order by nome");
+echo mysql_error();
+$ris = mysql_fetch_array($esito);
+return $ris["nome"];
+}
+
+/** LIST OF MATCHING
+ * It returns a list of dog's matchings
+ *
+ */
+public function lista_accoppiamenti($accoppiamento = 0){
+$esito = $this->prepare("select DATE_FORMAT(data,'%d/%c/%Y'), id, padre, madre from accoppiamenti order by data desc");
+while($ris = mysql_fetch_array($esito)){
+extract($ris);
+$madre = $this->find_nome($madre);
+$padre = $this->find_nome($padre);
+echo "<option value='$id'";
+if($accoppiamento==$id) echo " selected ";
+echo ">Data: ".$ris["DATE_FORMAT(data,'%d/%c/%Y')"]." - Genitori: ".$padre.", ".$madre."</option>";
+
+}
+
+}
+
+
+/* NEWS INSERT
+* $titolo, $titolo_en = title in italian and english
+* $desc, $desc_en = description in italian and english
+* $query5 = it returns true if the insert is succesful
+*/
+public function inserisci_news(){
 if(isset($_POST["titolo"])&&$_POST["titolo"]!=""){
 $titolo = ($_POST["titolo"]!="")?trim($_POST["titolo"]):"";
 $titolo_en = ($_POST["titolo_en"]!="")?trim($_POST["titolo_en"]):"";
@@ -369,7 +487,9 @@ return $query5;
 
 }
 }
-function modifica_news(){
+
+// NEWS MODIFY
+public function modifica_news(){
 if(isset($_POST["titolo"])&&$_POST["titolo"]!=""){
 $id_news = $_GET["mod_news"];
 $titolo = ($_POST["titolo"]!="")?trim($_POST["titolo"]):"";
@@ -382,7 +502,9 @@ return $query5;
 
 }
 }
-function dettagli_news($news){
+
+// A NEWS DETAILS
+public function dettagli_news($news){
 $query = $this->prepare("select * from news where id=$news");
 if($query)
 $ris = mysql_fetch_array($query);

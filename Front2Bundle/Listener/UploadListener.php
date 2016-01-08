@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: eph
- * Date: 18/03/15
- * Time: 12:00
+ * A drag and drop file script (any kind of file) 
  */
 
 namespace Casa\Front2Bundle\Listener;

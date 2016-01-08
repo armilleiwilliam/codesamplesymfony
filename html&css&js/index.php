@@ -10,6 +10,8 @@ require_once("inc/header.inc"); ?>
 
 <div class="img_home_top"><img src="image/dobermann_central_home.jpg" class="img-responsive" /></div>
 <h1> Allevamento Dobermann e vendita cuccioli </h1>
+
+
 <!-- start upper content -->
 <article class="col-sm-6 col-ie-7">
   <h3>Chi Siamo</h3>
@@ -27,6 +29,8 @@ require_once("inc/header.inc"); ?>
   <p>La nostra struttura, regolarizzata a norme USL, &egrave; affiliata allo CSEN con l&rsquo;<u>associazione sportiva FOXDOGCENTER che sar&agrave; lieta, per tutti coloro che desidereranno essere soci, di accogliere e prendersi cura dei vostri cani in pensione</u>.</p>
 </article>
 <!-- close upper content -->
+
+
 
 <!-- start middle content -->
 <article class="col-sm-6 col-ie-7">
@@ -55,7 +59,11 @@ require_once("inc/header.inc"); ?>
 <!-- close middle content -->
 
 
+
+
 <div class="clearfix"></div>
+
+
 
 <!-- start news content -->
 <article class="col-sm-6 panel panel-default col-ie-7">
@@ -68,13 +76,13 @@ while($result = mysql_fetch_array($news)){
 extract($result);
 echo "<tr><td>".date("d/m/Y",$data)."</td><td><a href='news.php#$id' target='_blank'>$titolo</a></td></tr>";
 $list++;
-
 };
-
 ?>
   </table>
 </article>
 <!-- close news content -->
+
+
 
 <!-- start slideshow -->
 <article class="col-sm-6 text-left col-ie-7">
@@ -87,6 +95,8 @@ $list++;
   </div>
 </article>
 <!-- close slideshow -->
+
+
 
 <!-- start type of dobermann section -->
 <article class="col-sm-12 bottom-home">
@@ -102,6 +112,8 @@ $list++;
     <a href="cuccioli.php" target="_blank"><img src="image/cuccioli.jpg" class="img-responsive" style="margin:0 auto;"/></a> </div>
 </article>
 <!-- close type of dobermann section -->
+
+
 
 <?php 
 require_once("inc/footer.inc"); ?>
